@@ -164,7 +164,7 @@ obstacles:
     width: 0.150   # Gate width
     height: 0.030  # Gate thickness
   
-  - type: "rectangle"
+  - type: "rectangle"q
     name: "irrigation_gate_bottom"
     position: [0.095, 0.400]  # Lower portion of gate
     width: 0.150
@@ -283,6 +283,27 @@ goals:
   - name: "crop_cell_3_2"
     position: [0.250, 1.076]
     description: "Crop cell: row 3, column 2 (top-right)"
+  
+  # Colored crop plot sections for two-trip strategy
+  # Orange plot (first section) - bottom row
+  - name: "orange_plot"
+    position: [0.175, 0.810]
+    description: "Orange crop section - bottom row center (Trip 1)"
+  
+  # Gray plot (second section) - middle row  
+  - name: "gray_plot"
+    position: [0.175, 0.943]
+    description: "Gray crop section - middle row center (Trip 1)"
+  
+  # Green plot (third section) - top row
+  - name: "green_plot"
+    position: [0.175, 1.076]
+    description: "Green crop section - top row center (Trip 2)"
+  
+  # Midpoint between orange and gray plots for Trip 1 approach
+  - name: "trip1_midpoint"
+    position: [0.175, 0.877]
+    description: "Midpoint between orange and gray plots for efficient Trip 1 navigation"
   
   # Irrigation gate interaction point (left corridor)
   - name: "irrigation_gate_entrance"

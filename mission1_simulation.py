@@ -128,6 +128,14 @@ class Mission1Simulator:
         self.crop_plot_center = self.goals['crop_plot_center']
         self.irrigation_gate_pos = self.goals['irrigation_gate_entrance']
         
+        # Colored plot sections for two-trip strategy
+        self.colored_plots = {
+            'orange': self.goals.get('orange_plot', self.goals['crop_cell_1_1']),  # Bottom section
+            'gray': self.goals.get('gray_plot', self.goals['crop_cell_2_1']),      # Middle section
+            'green': self.goals.get('green_plot', self.goals['crop_cell_3_1'])     # Top section
+        }
+        self.trip1_midpoint = self.goals.get('trip1_midpoint', np.array([0.175, 0.877]))
+        
     def calculate_travel_time(self, start: np.ndarray, end: np.ndarray, 
                              current_velocity: float = 0.0) -> Tuple[float, float]:
         """
@@ -196,7 +204,14 @@ class Mission1Simulator:
         
         # Visit each crop plot in order
         for plot_name in route_order:
-            plot_pos = self.crop_plots[plot_name]
+            # Check both crop_plots and colored_plots for the position
+            if plot_name in self.crop_plots:
+                plot_pos = self.crop_plots[plot_name]
+            elif hasattr(self, 'colored_plots') and plot_name in self.colored_plots:
+                plot_pos = self.colored_plots[plot_name]
+            else:
+                raise KeyError(f"Unknown plot name: {plot_name}")
+            
             travel_time, distance = self.calculate_travel_time(current_pos, plot_pos, current_velocity)
             
             total_time += travel_time + self.seed_placement_time
@@ -1001,6 +1016,495 @@ class Mission1Simulator:
         
         return results
 
+    def simulate_two_trip_strategy(self, 
+                                   trip1_plots: List[str] = None,
+                                   trip2_plots: List[str] = None,
+                                   seed_reload_time: float = 2.5,
+                                   include_irrigation: bool = True,
+                                   save_trajectory: bool = True) -> Dict:
+        """
+        Simulate a two-trip seed planting strategy.
+        
+        Trip 1: Start Zone → first two crop sections (orange, gray) → Return to Start Zone
+        Trip 2: Start Zone → remaining section (green) → Return to Start Zone
+        Optional: Visit irrigation gate after both trips
+        
+        Args:
+            trip1_plots: List of plot names for Trip 1 (default: ['orange', 'gray'])
+            trip2_plots: List of plot names for Trip 2 (default: ['green'])
+            seed_reload_time: Time to wait at Start Zone between trips (seconds)
+            include_irrigation: Whether to include irrigation gate visit after Trip 2
+            save_trajectory: Whether to save trajectory data
+            
+        Returns:
+            Dictionary with detailed metrics for both trips
+        """
+        if trip1_plots is None:
+            trip1_plots = ['orange', 'gray']
+        if trip2_plots is None:
+            trip2_plots = ['green']
+        
+        print("\n" + "="*70)
+        print("TWO-TRIP SEED PLANTING STRATEGY SIMULATION")
+        print("="*70)
+        print(f"Trip 1 Targets: {' → '.join(trip1_plots)}")
+        print(f"Trip 2 Targets: {' → '.join(trip2_plots)}")
+        print(f"Seed Reload Time: {seed_reload_time} s")
+        print(f"Include Irrigation: {include_irrigation}")
+        print("="*70 + "\n")
+        
+        # Reset trajectory data
+        self.trajectory = []
+        self.time_log = []
+        self.phase_log = []
+        self.velocity_log = []
+        
+        current_pos = self.start_position.copy()
+        current_time = 0.0
+        total_distance = 0.0
+        trip_metrics = []
+        
+        # =====================================================================
+        # TRIP 1: Start Zone → Orange Plot → Gray Plot → Return to Start Zone
+        # =====================================================================
+        print("=" * 50)
+        print("TRIP 1: First Two Crop Sections")
+        print("=" * 50)
+        
+        trip1_start_time = current_time
+        trip1_distance = 0.0
+        
+        # Visit each plot in Trip 1
+        for plot_name in trip1_plots:
+            if plot_name in self.colored_plots:
+                plot_pos = self.colored_plots[plot_name]
+            elif plot_name in self.crop_plots:
+                plot_pos = self.crop_plots[plot_name]
+            else:
+                print(f"  Warning: Unknown plot '{plot_name}', skipping")
+                continue
+            
+            print(f"\n  → Traveling to {plot_name} plot...")
+            
+            # Generate trajectory to plot
+            points, times, velocities = self._generate_segment_trajectory(
+                current_pos, plot_pos, current_time
+            )
+            
+            self.trajectory.extend(points)
+            self.time_log.extend(times)
+            self.velocity_log.extend(velocities)
+            self.phase_log.extend([MissionPhase.TRAVELING_TO_PLOT] * len(points))
+            
+            distance = np.linalg.norm(plot_pos - current_pos)
+            travel_time = times[-1] - current_time
+            current_time = times[-1]
+            trip1_distance += distance
+            total_distance += distance
+            
+            print(f"    Distance: {distance:.3f} m | Travel Time: {travel_time:.2f} s")
+            
+            # Planting seeds at plot
+            print(f"    Planting seeds at {plot_name} plot ({self.seed_placement_time:.1f} s)...")
+            num_stop_points = int(self.seed_placement_time / self.dt)
+            for _ in range(num_stop_points):
+                self.trajectory.append(plot_pos.copy())
+                current_time += self.dt
+                self.time_log.append(current_time)
+                self.velocity_log.append(0.0)
+                self.phase_log.append(MissionPhase.PLANTING)
+            
+            current_pos = plot_pos
+            print(f"    Cumulative Time: {current_time:.2f} s")
+        
+        # Return to Start Zone after Trip 1
+        print(f"\n  ← Returning to Start Zone...")
+        points, times, velocities = self._generate_segment_trajectory(
+            current_pos, self.start_position, current_time
+        )
+        
+        self.trajectory.extend(points)
+        self.time_log.extend(times)
+        self.velocity_log.extend(velocities)
+        self.phase_log.extend([MissionPhase.RETURNING] * len(points))
+        
+        return_distance = np.linalg.norm(self.start_position - current_pos)
+        return_time = times[-1] - current_time
+        current_time = times[-1]
+        trip1_distance += return_distance
+        total_distance += return_distance
+        
+        trip1_total_time = current_time - trip1_start_time
+        
+        print(f"    Return Distance: {return_distance:.3f} m | Return Time: {return_time:.2f} s")
+        print(f"\n  ✓ TRIP 1 COMPLETE")
+        print(f"    Trip 1 Distance: {trip1_distance:.3f} m")
+        print(f"    Trip 1 Time: {trip1_total_time:.2f} s")
+        print(f"    Cumulative Time: {current_time:.2f} s")
+        
+        trip_metrics.append({
+            'trip': 1,
+            'plots_visited': trip1_plots,
+            'distance': trip1_distance,
+            'time': trip1_total_time
+        })
+        
+        # =====================================================================
+        # SEED RELOAD AT START ZONE
+        # =====================================================================
+        print(f"\n  ⏳ Reloading seeds at Start Zone ({seed_reload_time:.1f} s)...")
+        num_reload_points = int(seed_reload_time / self.dt)
+        for _ in range(num_reload_points):
+            self.trajectory.append(self.start_position.copy())
+            current_time += self.dt
+            self.time_log.append(current_time)
+            self.velocity_log.append(0.0)
+            self.phase_log.extend([MissionPhase.LOADING])
+        
+        current_pos = self.start_position.copy()
+        print(f"    Cumulative Time: {current_time:.2f} s")
+        
+        # =====================================================================
+        # TRIP 2: Start Zone → Green Plot → Return to Start Zone
+        # =====================================================================
+        print("\n" + "=" * 50)
+        print("TRIP 2: Remaining Crop Section")
+        print("=" * 50)
+        
+        trip2_start_time = current_time
+        trip2_distance = 0.0
+        
+        # Visit each plot in Trip 2
+        for plot_name in trip2_plots:
+            if plot_name in self.colored_plots:
+                plot_pos = self.colored_plots[plot_name]
+            elif plot_name in self.crop_plots:
+                plot_pos = self.crop_plots[plot_name]
+            else:
+                print(f"  Warning: Unknown plot '{plot_name}', skipping")
+                continue
+            
+            print(f"\n  → Traveling to {plot_name} plot...")
+            
+            # Generate trajectory to plot
+            points, times, velocities = self._generate_segment_trajectory(
+                current_pos, plot_pos, current_time
+            )
+            
+            self.trajectory.extend(points)
+            self.time_log.extend(times)
+            self.velocity_log.extend(velocities)
+            self.phase_log.extend([MissionPhase.TRAVELING_TO_PLOT] * len(points))
+            
+            distance = np.linalg.norm(plot_pos - current_pos)
+            travel_time = times[-1] - current_time
+            current_time = times[-1]
+            trip2_distance += distance
+            total_distance += distance
+            
+            print(f"    Distance: {distance:.3f} m | Travel Time: {travel_time:.2f} s")
+            
+            # Planting seeds at plot
+            print(f"    Planting seeds at {plot_name} plot ({self.seed_placement_time:.1f} s)...")
+            num_stop_points = int(self.seed_placement_time / self.dt)
+            for _ in range(num_stop_points):
+                self.trajectory.append(plot_pos.copy())
+                current_time += self.dt
+                self.time_log.append(current_time)
+                self.velocity_log.append(0.0)
+                self.phase_log.append(MissionPhase.PLANTING)
+            
+            current_pos = plot_pos
+            print(f"    Cumulative Time: {current_time:.2f} s")
+        
+        # Return to Start Zone after Trip 2
+        print(f"\n  ← Returning to Start Zone...")
+        points, times, velocities = self._generate_segment_trajectory(
+            current_pos, self.start_position, current_time
+        )
+        
+        self.trajectory.extend(points)
+        self.time_log.extend(times)
+        self.velocity_log.extend(velocities)
+        self.phase_log.extend([MissionPhase.RETURNING] * len(points))
+        
+        return_distance = np.linalg.norm(self.start_position - current_pos)
+        return_time = times[-1] - current_time
+        current_time = times[-1]
+        trip2_distance += return_distance
+        total_distance += return_distance
+        
+        trip2_total_time = current_time - trip2_start_time
+        
+        print(f"    Return Distance: {return_distance:.3f} m | Return Time: {return_time:.2f} s")
+        print(f"\n  ✓ TRIP 2 COMPLETE")
+        print(f"    Trip 2 Distance: {trip2_distance:.3f} m")
+        print(f"    Trip 2 Time: {trip2_total_time:.2f} s")
+        print(f"    Cumulative Time: {current_time:.2f} s")
+        
+        trip_metrics.append({
+            'trip': 2,
+            'plots_visited': trip2_plots,
+            'distance': trip2_distance,
+            'time': trip2_total_time
+        })
+        
+        current_pos = self.start_position.copy()
+        
+        # =====================================================================
+        # OPTIONAL: IRRIGATION GATE VISIT
+        # =====================================================================
+        irrigation_time_spent = 0.0
+        irrigation_distance = 0.0
+        
+        if include_irrigation:
+            print("\n" + "=" * 50)
+            print("IRRIGATION GATE VISIT (Optional)")
+            print("=" * 50)
+            
+            print(f"\n  → Traveling to irrigation gate...")
+            points, times, velocities = self._generate_segment_trajectory(
+                current_pos, self.irrigation_gate_pos, current_time
+            )
+            
+            self.trajectory.extend(points)
+            self.time_log.extend(times)
+            self.velocity_log.extend(velocities)
+            self.phase_log.extend([MissionPhase.TRAVELING_TO_GATE] * len(points))
+            
+            distance = np.linalg.norm(self.irrigation_gate_pos - current_pos)
+            travel_time = times[-1] - current_time
+            current_time = times[-1]
+            irrigation_distance += distance
+            total_distance += distance
+            
+            print(f"    Distance: {distance:.3f} m | Travel Time: {travel_time:.2f} s")
+            
+            # Activate irrigation
+            print(f"    Activating irrigation ({self.irrigation_time:.1f} s)...")
+            num_stop_points = int(self.irrigation_time / self.dt)
+            for _ in range(num_stop_points):
+                self.trajectory.append(self.irrigation_gate_pos.copy())
+                current_time += self.dt
+                self.time_log.append(current_time)
+                self.velocity_log.append(0.0)
+                self.phase_log.append(MissionPhase.IRRIGATING)
+            
+            current_pos = self.irrigation_gate_pos
+            irrigation_time_spent = travel_time + self.irrigation_time
+            
+            # Return to Start Zone (final position)
+            print(f"\n  ← Returning to Start Zone (final position)...")
+            points, times, velocities = self._generate_segment_trajectory(
+                current_pos, self.start_position, current_time
+            )
+            
+            self.trajectory.extend(points)
+            self.time_log.extend(times)
+            self.velocity_log.extend(velocities)
+            self.phase_log.extend([MissionPhase.RETURNING] * len(points))
+            
+            return_distance = np.linalg.norm(self.start_position - current_pos)
+            return_time = times[-1] - current_time
+            current_time = times[-1]
+            irrigation_distance += return_distance
+            total_distance += return_distance
+            irrigation_time_spent += return_time
+            
+            print(f"    Return Distance: {return_distance:.3f} m | Return Time: {return_time:.2f} s")
+            print(f"\n  ✓ IRRIGATION COMPLETE")
+            print(f"    Irrigation Phase Distance: {irrigation_distance:.3f} m")
+            print(f"    Irrigation Phase Time: {irrigation_time_spent:.2f} s")
+        
+        # =====================================================================
+        # FINAL SUMMARY
+        # =====================================================================
+        print("\n" + "="*70)
+        print("TWO-TRIP STRATEGY SIMULATION SUMMARY")
+        print("="*70)
+        
+        within_time_limit = current_time <= self.time_limit
+        
+        print(f"\n  TIMING BREAKDOWN:")
+        print(f"  {'─' * 45}")
+        print(f"  Trip 1 (orange + gray):     {trip_metrics[0]['time']:>8.2f} s")
+        print(f"  Seed Reload:                {seed_reload_time:>8.2f} s")
+        print(f"  Trip 2 (green):             {trip_metrics[1]['time']:>8.2f} s")
+        if include_irrigation:
+            print(f"  Irrigation Phase:           {irrigation_time_spent:>8.2f} s")
+        print(f"  {'─' * 45}")
+        print(f"  TOTAL TIME:                 {current_time:>8.2f} s")
+        print(f"  Time Limit:                 {self.time_limit:>8.2f} s")
+        print(f"  Time Remaining:             {self.time_limit - current_time:>8.2f} s")
+        
+        print(f"\n  DISTANCE BREAKDOWN:")
+        print(f"  {'─' * 45}")
+        print(f"  Trip 1:                     {trip_metrics[0]['distance']:>8.3f} m")
+        print(f"  Trip 2:                     {trip_metrics[1]['distance']:>8.3f} m")
+        if include_irrigation:
+            print(f"  Irrigation Phase:           {irrigation_distance:>8.3f} m")
+        print(f"  {'─' * 45}")
+        print(f"  TOTAL DISTANCE:             {total_distance:>8.3f} m")
+        
+        print(f"\n  MISSION STATUS:")
+        print(f"  {'─' * 45}")
+        if within_time_limit:
+            print(f"  ✓ FEASIBLE - Completes within 120-second limit!")
+            print(f"  ✓ Time buffer available: {self.time_limit - current_time:.2f} s")
+        else:
+            print(f"  ✗ EXCEEDS TIME LIMIT by {current_time - self.time_limit:.2f} s")
+            print(f"  ✗ Consider reducing seed placement time or increasing speed")
+        
+        print("="*70 + "\n")
+        
+        # Save trajectory to CSV with two-trip naming
+        if save_trajectory:
+            route_name = f"2trip_{'-'.join(trip1_plots)}_then_{'-'.join(trip2_plots)}"
+            if include_irrigation:
+                route_name += "_with_irrigation"
+            filename = f"results/trajectory_{route_name}.csv"
+            
+            with open(filename, 'w', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow(['Time (s)', 'X (m)', 'Y (m)', 'Velocity (m/s)', 'Phase'])
+                
+                for i in range(len(self.trajectory)):
+                    writer.writerow([
+                        f"{self.time_log[i]:.3f}",
+                        f"{self.trajectory[i][0]:.4f}",
+                        f"{self.trajectory[i][1]:.4f}",
+                        f"{self.velocity_log[i]:.4f}",
+                        self.phase_log[i].value
+                    ])
+            
+            print(f"Trajectory data saved to: {filename}")
+        
+        return {
+            'total_time': current_time,
+            'total_distance': total_distance,
+            'time_remaining': self.time_limit - current_time,
+            'feasible': within_time_limit,
+            'seed_reload_time': seed_reload_time,
+            'trips': trip_metrics,
+            'include_irrigation': include_irrigation,
+            'irrigation_time': irrigation_time_spent if include_irrigation else 0,
+            'irrigation_distance': irrigation_distance if include_irrigation else 0
+        }
+
+    def compare_single_vs_two_trip(self, seed_reload_time: float = 2.5) -> Dict:
+        """
+        Compare single-trip vs two-trip strategies.
+        
+        Args:
+            seed_reload_time: Time to reload seeds at Start Zone between trips
+            
+        Returns:
+            Dictionary with comparison results
+        """
+        print("\n" + "="*70)
+        print("STRATEGY COMPARISON: SINGLE-TRIP vs TWO-TRIP")
+        print("="*70)
+        
+        # Single-trip strategy (visit all 3 colored plots in one go)
+        single_trip_route = ['orange', 'gray', 'green']
+        single_trip_metrics = self.calculate_route_metrics(
+            single_trip_route, 
+            include_irrigation=True,
+            include_return=True
+        )
+        
+        # Two-trip strategy calculation
+        # Trip 1: orange → gray → return
+        # Trip 2: green → return
+        # Optional: irrigation
+        
+        trip1_distance = 0.0
+        trip1_time = 0.0
+        
+        # Trip 1: Start → orange
+        d1 = np.linalg.norm(self.colored_plots['orange'] - self.start_position)
+        t1, _ = self.calculate_travel_time(self.start_position, self.colored_plots['orange'])
+        trip1_distance += d1
+        trip1_time += t1 + self.seed_placement_time
+        
+        # Trip 1: orange → gray
+        d2 = np.linalg.norm(self.colored_plots['gray'] - self.colored_plots['orange'])
+        t2, _ = self.calculate_travel_time(self.colored_plots['orange'], self.colored_plots['gray'])
+        trip1_distance += d2
+        trip1_time += t2 + self.seed_placement_time
+        
+        # Trip 1: gray → Start
+        d3 = np.linalg.norm(self.start_position - self.colored_plots['gray'])
+        t3, _ = self.calculate_travel_time(self.colored_plots['gray'], self.start_position)
+        trip1_distance += d3
+        trip1_time += t3
+        
+        # Seed reload
+        reload_time = seed_reload_time
+        
+        # Trip 2: Start → green → Start
+        trip2_distance = 0.0
+        trip2_time = 0.0
+        
+        d4 = np.linalg.norm(self.colored_plots['green'] - self.start_position)
+        t4, _ = self.calculate_travel_time(self.start_position, self.colored_plots['green'])
+        trip2_distance += d4
+        trip2_time += t4 + self.seed_placement_time
+        
+        d5 = np.linalg.norm(self.start_position - self.colored_plots['green'])
+        t5, _ = self.calculate_travel_time(self.colored_plots['green'], self.start_position)
+        trip2_distance += d5
+        trip2_time += t5
+        
+        # Irrigation (from start zone)
+        irrigation_distance = 0.0
+        irrigation_time = 0.0
+        
+        d6 = np.linalg.norm(self.irrigation_gate_pos - self.start_position)
+        t6, _ = self.calculate_travel_time(self.start_position, self.irrigation_gate_pos)
+        irrigation_distance += d6
+        irrigation_time += t6 + self.irrigation_time
+        
+        d7 = np.linalg.norm(self.start_position - self.irrigation_gate_pos)
+        t7, _ = self.calculate_travel_time(self.irrigation_gate_pos, self.start_position)
+        irrigation_distance += d7
+        irrigation_time += t7
+        
+        two_trip_total_time = trip1_time + reload_time + trip2_time + irrigation_time
+        two_trip_total_distance = trip1_distance + trip2_distance + irrigation_distance
+        
+        print(f"\n{'Strategy':<35} {'Distance (m)':<15} {'Time (s)':<12} {'Remaining (s)':<15} {'Feasible':<10}")
+        print("-" * 90)
+        
+        single_feasible = "✓ YES" if single_trip_metrics['feasible'] else "✗ NO"
+        two_trip_feasible = "✓ YES" if two_trip_total_time <= self.time_limit else "✗ NO"
+        
+        print(f"{'Single-Trip (all 3 plots)':<35} {single_trip_metrics['total_distance']:>8.3f}      "
+              f"{single_trip_metrics['total_time']:>8.2f}    {single_trip_metrics['time_remaining']:>10.2f}      {single_feasible:<10}")
+        print(f"{'Two-Trip (2+1 with reload)':<35} {two_trip_total_distance:>8.3f}      "
+              f"{two_trip_total_time:>8.2f}    {self.time_limit - two_trip_total_time:>10.2f}      {two_trip_feasible:<10}")
+        
+        time_diff = two_trip_total_time - single_trip_metrics['total_time']
+        print(f"\n  Two-Trip adds {time_diff:.2f} s overhead (reload + extra return trips)")
+        print(f"  Two-Trip adds {two_trip_total_distance - single_trip_metrics['total_distance']:.3f} m extra distance")
+        
+        print("="*70 + "\n")
+        
+        return {
+            'single_trip': single_trip_metrics,
+            'two_trip': {
+                'total_time': two_trip_total_time,
+                'total_distance': two_trip_total_distance,
+                'time_remaining': self.time_limit - two_trip_total_time,
+                'feasible': two_trip_total_time <= self.time_limit,
+                'trip1_time': trip1_time,
+                'trip2_time': trip2_time,
+                'reload_time': reload_time,
+                'irrigation_time': irrigation_time
+            },
+            'time_difference': time_diff
+        }
+
 
 def main():
     """Main simulation entry point."""
@@ -1009,6 +1513,7 @@ def main():
     print("║" + " "*68 + "║")
     print("║" + "  ITU Robotics for Good Youth Challenge 2025-2026".center(68) + "║")
     print("║" + "  Mission 1: Cultivation and Irrigation Simulator".center(68) + "║")
+    print("║" + "  TWO-TRIP SEED PLANTING STRATEGY".center(68) + "║")
     print("║" + " "*68 + "║")
     print("╚" + "="*68 + "╝")
     print()
@@ -1016,59 +1521,89 @@ def main():
     # Initialize simulator
     simulator = Mission1Simulator("robotics_competition.yaml")
     
-    # 1. Route Optimization Analysis
-    optimization_results = simulator.optimize_route()
-    optimal_route = optimization_results['optimal_route']['route_order']
+    # =========================================================================
+    # 1. COMPARE SINGLE-TRIP vs TWO-TRIP STRATEGIES
+    # =========================================================================
+    comparison_results = simulator.compare_single_vs_two_trip(seed_reload_time=2.5)
     
-    # 2. Simulate Optimal Route
-    final_state = simulator.simulate_trajectory(
-        route_order=optimal_route,
-        include_irrigation=True,
-        include_return=False,
+    # =========================================================================
+    # 2. SIMULATE TWO-TRIP STRATEGY (Primary Mission Strategy)
+    # =========================================================================
+    # Trip 1: Start Zone → Orange Plot → Gray Plot → Return to Start Zone
+    # Trip 2: Start Zone → Green Plot → Return to Start Zone
+    # Optional: Irrigation gate visit after both trips
+    
+    two_trip_results = simulator.simulate_two_trip_strategy(
+        trip1_plots=['orange', 'gray'],  # First two crop sections
+        trip2_plots=['green'],           # Remaining crop section
+        seed_reload_time=2.5,            # 2.5 seconds reload time at Start Zone
+        include_irrigation=True,         # Visit irrigation gate after Trip 2
         save_trajectory=True
     )
     
-    # 3. Strategy Comparison
-    strategy_results = simulator.compare_strategies()
-    
-    # 4. Parameter Sweep
-    velocity_results = simulator.parameter_sweep(velocities=[0.3, 0.35, 0.4])
-    
-    # 5. Visualize Results with Animation
+    # =========================================================================
+    # 3. VISUALIZE TWO-TRIP TRAJECTORY
+    # =========================================================================
     print("\n" + "="*70)
     print("VISUALIZATION")
     print("="*70)
-    print("Generating animated visualization of robot movement...")
+    print("Generating animated visualization of two-trip robot movement...")
     print("• Animation shows real-time robot path on the competition field")
+    print("• Shows Trip 1, return to Start Zone, reload, Trip 2, and irrigation")
     print("• Velocity profile displayed with acceleration/deceleration")
     print("• Saved as GIF file for playback and analysis")
     print("="*70 + "\n")
     
     simulator.visualize_trajectory(save_plot=True, animate=True)
     
-    # 6. Final Summary
+    # =========================================================================
+    # 4. FINAL SUMMARY FOR TWO-TRIP STRATEGY
+    # =========================================================================
     print("\n" + "="*70)
-    print("MISSION 1 SIMULATION COMPLETE")
+    print("TWO-TRIP MISSION STRATEGY - FINAL SUMMARY")
     print("="*70)
+    print("\nSTRATEGY OVERVIEW:")
+    print("  Trip 1: Start Zone → Orange Plot → Gray Plot → Start Zone")
+    print("  [Reload]: Wait at Start Zone for seed reload (~2.5 seconds)")
+    print("  Trip 2: Start Zone → Green Plot → Start Zone")
+    print("  [Optional]: Start Zone → Irrigation Gate → Start Zone")
+    
     print("\nKEY FINDINGS:")
-    print(f"  • Optimal route order: {' → '.join(optimal_route)}")
-    print(f"  • Total mission time: {final_state.time:.2f} seconds")
-    print(f"  • Time remaining: {simulator.time_limit - final_state.time:.2f} seconds")
-    print(f"  • Total distance: {final_state.distance_traveled:.3f} meters")
-    print(f"  • Mission feasibility: {'✓ FEASIBLE within 120s limit' if final_state.time <= simulator.time_limit else '✗ EXCEEDS time limit'}")
+    print(f"  • Total mission time: {two_trip_results['total_time']:.2f} seconds")
+    print(f"  • Time remaining: {two_trip_results['time_remaining']:.2f} seconds")
+    print(f"  • Total distance: {two_trip_results['total_distance']:.3f} meters")
+    print(f"  • Mission feasibility: {'✓ FEASIBLE within 120s limit' if two_trip_results['feasible'] else '✗ EXCEEDS time limit'}")
+    
+    print("\nTRIP BREAKDOWN:")
+    for trip in two_trip_results['trips']:
+        plots_str = ', '.join(trip['plots_visited'])
+        print(f"  • Trip {trip['trip']}: {plots_str}")
+        print(f"    Distance: {trip['distance']:.3f} m | Time: {trip['time']:.2f} s")
+    print(f"  • Seed Reload Time: {two_trip_results['seed_reload_time']:.1f} s")
+    if two_trip_results['include_irrigation']:
+        print(f"  • Irrigation Phase: {two_trip_results['irrigation_distance']:.3f} m | {two_trip_results['irrigation_time']:.2f} s")
+    
+    print("\nCOMPARISON TO SINGLE-TRIP:")
+    time_diff = comparison_results['time_difference']
+    if time_diff > 0:
+        print(f"  • Two-trip takes {time_diff:.2f} s longer than single-trip")
+    else:
+        print(f"  • Two-trip is {-time_diff:.2f} s faster than single-trip")
+    print(f"  • Both strategies are {'feasible' if two_trip_results['feasible'] and comparison_results['single_trip']['feasible'] else 'NOT both feasible'}")
+    
     print("\nRECOMMENDATIONS:")
-    print("  1. Use the optimal route order to minimize travel time")
-    print("  2. Implement acceleration/deceleration profiles for smooth motion")
-    print(f"  3. Target velocity: {simulator.max_velocity} m/s provides good balance")
-    print("  4. Practice precise positioning at crop plot waypoints")
-    print("  5. Reserve time buffer for unexpected delays during irrigation")
+    print("  1. Use two-trip strategy for realistic seed capacity constraints")
+    print("  2. Optimize path within each trip for minimal travel time")
+    print(f"  3. Target velocity: {simulator.max_velocity} m/s for smooth motion")
+    print("  4. Practice quick seed reload at Start Zone (target: 2-3 seconds)")
+    print("  5. Monitor time during mission - abort irrigation if behind schedule")
+    
     print("\nOUTPUT FILES:")
-    print("  • Trajectory CSV: results/trajectory_*.csv")
+    print("  • Trajectory CSV: results/trajectory_2trip_*.csv")
     print("  • Animation GIF: results/mission1_animation_*.gif")
-    print("  • Static Plot: results/mission1_visualization_*.png (if generated)")
     print("="*70 + "\n")
     
-    print("✓ All analyses complete! Review the saved files for detailed results.")
+    print("✓ Two-trip strategy simulation complete! Review the saved files for detailed results.")
     print("="*70 + "\n")
 
 
