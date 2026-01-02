@@ -1,0 +1,803 @@
+Time (s),X (m),Y (m),Velocity (m/s),Phase
+0.000,1.0110,0.3000,0.0000,Traveling to Crop Plot
+0.050,1.0103,0.3004,0.0300,Traveling to Crop Plot
+0.100,1.0084,0.3014,0.0600,Traveling to Crop Plot
+0.150,1.0051,0.3032,0.0900,Traveling to Crop Plot
+0.200,1.0004,0.3057,0.1200,Traveling to Crop Plot
+0.250,0.9945,0.3089,0.1500,Traveling to Crop Plot
+0.300,0.9872,0.3128,0.1800,Traveling to Crop Plot
+0.350,0.9787,0.3174,0.2100,Traveling to Crop Plot
+0.400,0.9687,0.3228,0.2400,Traveling to Crop Plot
+0.450,0.9575,0.3288,0.2700,Traveling to Crop Plot
+0.500,0.9450,0.3356,0.3000,Traveling to Crop Plot
+0.550,0.9311,0.3431,0.3300,Traveling to Crop Plot
+0.583,0.9211,0.3484,0.3500,Traveling to Crop Plot
+0.633,0.9057,0.3567,0.3500,Traveling to Crop Plot
+0.683,0.8903,0.3651,0.3500,Traveling to Crop Plot
+0.733,0.8749,0.3734,0.3500,Traveling to Crop Plot
+0.783,0.8595,0.3817,0.3500,Traveling to Crop Plot
+0.833,0.8441,0.3900,0.3500,Traveling to Crop Plot
+0.883,0.8287,0.3983,0.3500,Traveling to Crop Plot
+0.933,0.8133,0.4066,0.3500,Traveling to Crop Plot
+0.983,0.7979,0.4149,0.3500,Traveling to Crop Plot
+1.033,0.7825,0.4232,0.3500,Traveling to Crop Plot
+1.083,0.7671,0.4315,0.3500,Traveling to Crop Plot
+1.133,0.7517,0.4398,0.3500,Traveling to Crop Plot
+1.183,0.7363,0.4481,0.3500,Traveling to Crop Plot
+1.233,0.7209,0.4564,0.3500,Traveling to Crop Plot
+1.283,0.7055,0.4647,0.3500,Traveling to Crop Plot
+1.333,0.6901,0.4730,0.3500,Traveling to Crop Plot
+1.383,0.6747,0.4813,0.3500,Traveling to Crop Plot
+1.433,0.6593,0.4896,0.3500,Traveling to Crop Plot
+1.483,0.6439,0.4979,0.3500,Traveling to Crop Plot
+1.533,0.6285,0.5062,0.3500,Traveling to Crop Plot
+1.583,0.6131,0.5145,0.3500,Traveling to Crop Plot
+1.633,0.5977,0.5228,0.3500,Traveling to Crop Plot
+1.683,0.5823,0.5311,0.3500,Traveling to Crop Plot
+1.733,0.5668,0.5394,0.3500,Traveling to Crop Plot
+1.783,0.5514,0.5478,0.3500,Traveling to Crop Plot
+1.833,0.5360,0.5561,0.3500,Traveling to Crop Plot
+1.883,0.5206,0.5644,0.3500,Traveling to Crop Plot
+1.933,0.5052,0.5727,0.3500,Traveling to Crop Plot
+1.983,0.4898,0.5810,0.3500,Traveling to Crop Plot
+2.033,0.4744,0.5893,0.3500,Traveling to Crop Plot
+2.083,0.4590,0.5976,0.3500,Traveling to Crop Plot
+2.133,0.4436,0.6059,0.3500,Traveling to Crop Plot
+2.183,0.4282,0.6142,0.3500,Traveling to Crop Plot
+2.233,0.4128,0.6225,0.3500,Traveling to Crop Plot
+2.283,0.3974,0.6308,0.3500,Traveling to Crop Plot
+2.333,0.3820,0.6391,0.3500,Traveling to Crop Plot
+2.383,0.3666,0.6474,0.3500,Traveling to Crop Plot
+2.433,0.3512,0.6557,0.3500,Traveling to Crop Plot
+2.483,0.3358,0.6640,0.3500,Traveling to Crop Plot
+2.533,0.3204,0.6723,0.3500,Traveling to Crop Plot
+2.583,0.3050,0.6806,0.3500,Traveling to Crop Plot
+2.633,0.2896,0.6889,0.3500,Traveling to Crop Plot
+2.683,0.2742,0.6972,0.3500,Traveling to Crop Plot
+2.733,0.2588,0.7055,0.3500,Traveling to Crop Plot
+2.783,0.2434,0.7138,0.3500,Traveling to Crop Plot
+2.833,0.2280,0.7221,0.3500,Traveling to Crop Plot
+2.883,0.2126,0.7305,0.3500,Traveling to Crop Plot
+2.933,0.1972,0.7388,0.3500,Traveling to Crop Plot
+2.983,0.1817,0.7471,0.3500,Traveling to Crop Plot
+3.033,0.1663,0.7554,0.3500,Traveling to Crop Plot
+3.071,0.1549,0.7616,0.3500,Traveling to Crop Plot
+3.121,0.1401,0.7695,0.3200,Traveling to Crop Plot
+3.171,0.1267,0.7767,0.2900,Traveling to Crop Plot
+3.221,0.1146,0.7833,0.2600,Traveling to Crop Plot
+3.271,0.1038,0.7891,0.2300,Traveling to Crop Plot
+3.321,0.0943,0.7942,0.2000,Traveling to Crop Plot
+3.371,0.0862,0.7986,0.1700,Traveling to Crop Plot
+3.421,0.0794,0.8022,0.1400,Traveling to Crop Plot
+3.471,0.0739,0.8052,0.1100,Traveling to Crop Plot
+3.521,0.0697,0.8075,0.0800,Traveling to Crop Plot
+3.571,0.0668,0.8090,0.0500,Traveling to Crop Plot
+3.621,0.0653,0.8098,0.0200,Traveling to Crop Plot
+3.671,0.0650,0.8100,0.0000,Planting Seeds
+3.721,0.0650,0.8100,0.0000,Planting Seeds
+3.771,0.0650,0.8100,0.0000,Planting Seeds
+3.821,0.0650,0.8100,0.0000,Planting Seeds
+3.871,0.0650,0.8100,0.0000,Planting Seeds
+3.921,0.0650,0.8100,0.0000,Planting Seeds
+3.971,0.0650,0.8100,0.0000,Planting Seeds
+4.021,0.0650,0.8100,0.0000,Planting Seeds
+4.071,0.0650,0.8100,0.0000,Planting Seeds
+4.121,0.0650,0.8100,0.0000,Planting Seeds
+4.171,0.0650,0.8100,0.0000,Planting Seeds
+4.221,0.0650,0.8100,0.0000,Planting Seeds
+4.271,0.0650,0.8100,0.0000,Planting Seeds
+4.321,0.0650,0.8100,0.0000,Planting Seeds
+4.371,0.0650,0.8100,0.0000,Planting Seeds
+4.421,0.0650,0.8100,0.0000,Planting Seeds
+4.471,0.0650,0.8100,0.0000,Planting Seeds
+4.521,0.0650,0.8100,0.0000,Planting Seeds
+4.571,0.0650,0.8100,0.0000,Planting Seeds
+4.621,0.0650,0.8100,0.0000,Planting Seeds
+4.671,0.0650,0.8100,0.0000,Planting Seeds
+4.721,0.0650,0.8100,0.0000,Planting Seeds
+4.771,0.0650,0.8100,0.0000,Planting Seeds
+4.821,0.0650,0.8100,0.0000,Planting Seeds
+4.871,0.0650,0.8100,0.0000,Planting Seeds
+4.921,0.0650,0.8100,0.0000,Planting Seeds
+4.971,0.0650,0.8100,0.0000,Planting Seeds
+5.021,0.0650,0.8100,0.0000,Planting Seeds
+5.071,0.0650,0.8100,0.0000,Planting Seeds
+5.121,0.0650,0.8100,0.0000,Planting Seeds
+5.171,0.0650,0.8100,0.0000,Planting Seeds
+5.221,0.0650,0.8100,0.0000,Planting Seeds
+5.271,0.0650,0.8100,0.0000,Planting Seeds
+5.321,0.0650,0.8100,0.0000,Planting Seeds
+5.371,0.0650,0.8100,0.0000,Planting Seeds
+5.421,0.0650,0.8100,0.0000,Planting Seeds
+5.471,0.0650,0.8100,0.0000,Planting Seeds
+5.521,0.0650,0.8100,0.0000,Planting Seeds
+5.571,0.0650,0.8100,0.0000,Planting Seeds
+5.621,0.0650,0.8100,0.0000,Planting Seeds
+5.671,0.0650,0.8100,0.0000,Planting Seeds
+5.721,0.0650,0.8100,0.0000,Planting Seeds
+5.771,0.0650,0.8100,0.0000,Planting Seeds
+5.821,0.0650,0.8100,0.0000,Planting Seeds
+5.871,0.0650,0.8100,0.0000,Planting Seeds
+5.921,0.0650,0.8100,0.0000,Planting Seeds
+5.971,0.0650,0.8100,0.0000,Planting Seeds
+6.021,0.0650,0.8100,0.0000,Planting Seeds
+6.071,0.0650,0.8100,0.0000,Planting Seeds
+6.121,0.0650,0.8100,0.0000,Planting Seeds
+6.171,0.0650,0.8100,0.0000,Planting Seeds
+6.221,0.0650,0.8100,0.0000,Planting Seeds
+6.271,0.0650,0.8100,0.0000,Planting Seeds
+6.321,0.0650,0.8100,0.0000,Planting Seeds
+6.371,0.0650,0.8100,0.0000,Planting Seeds
+6.421,0.0650,0.8100,0.0000,Planting Seeds
+6.471,0.0650,0.8100,0.0000,Planting Seeds
+6.521,0.0650,0.8100,0.0000,Planting Seeds
+6.571,0.0650,0.8100,0.0000,Planting Seeds
+6.621,0.0650,0.8100,0.0000,Planting Seeds
+6.621,0.0650,0.8100,0.0000,Traveling to Crop Plot
+6.671,0.0658,0.8100,0.0300,Traveling to Crop Plot
+6.721,0.0680,0.8100,0.0600,Traveling to Crop Plot
+6.771,0.0718,0.8100,0.0900,Traveling to Crop Plot
+6.821,0.0770,0.8100,0.1200,Traveling to Crop Plot
+6.871,0.0838,0.8100,0.1500,Traveling to Crop Plot
+6.921,0.0920,0.8100,0.1800,Traveling to Crop Plot
+6.971,0.1017,0.8100,0.2100,Traveling to Crop Plot
+7.021,0.1130,0.8100,0.2400,Traveling to Crop Plot
+7.071,0.1257,0.8100,0.2700,Traveling to Crop Plot
+7.121,0.1400,0.8100,0.3000,Traveling to Crop Plot
+7.153,0.1500,0.8100,0.3194,Traveling to Crop Plot
+7.203,0.1652,0.8100,0.2894,Traveling to Crop Plot
+7.253,0.1789,0.8100,0.2594,Traveling to Crop Plot
+7.303,0.1912,0.8100,0.2294,Traveling to Crop Plot
+7.353,0.2019,0.8100,0.1994,Traveling to Crop Plot
+7.403,0.2111,0.8100,0.1694,Traveling to Crop Plot
+7.453,0.2188,0.8100,0.1394,Traveling to Crop Plot
+7.503,0.2250,0.8100,0.1094,Traveling to Crop Plot
+7.553,0.2297,0.8100,0.0794,Traveling to Crop Plot
+7.603,0.2330,0.8100,0.0494,Traveling to Crop Plot
+7.653,0.2347,0.8100,0.0194,Traveling to Crop Plot
+7.703,0.2350,0.8100,0.0000,Planting Seeds
+7.753,0.2350,0.8100,0.0000,Planting Seeds
+7.803,0.2350,0.8100,0.0000,Planting Seeds
+7.853,0.2350,0.8100,0.0000,Planting Seeds
+7.903,0.2350,0.8100,0.0000,Planting Seeds
+7.953,0.2350,0.8100,0.0000,Planting Seeds
+8.003,0.2350,0.8100,0.0000,Planting Seeds
+8.053,0.2350,0.8100,0.0000,Planting Seeds
+8.103,0.2350,0.8100,0.0000,Planting Seeds
+8.153,0.2350,0.8100,0.0000,Planting Seeds
+8.203,0.2350,0.8100,0.0000,Planting Seeds
+8.253,0.2350,0.8100,0.0000,Planting Seeds
+8.303,0.2350,0.8100,0.0000,Planting Seeds
+8.353,0.2350,0.8100,0.0000,Planting Seeds
+8.403,0.2350,0.8100,0.0000,Planting Seeds
+8.453,0.2350,0.8100,0.0000,Planting Seeds
+8.503,0.2350,0.8100,0.0000,Planting Seeds
+8.553,0.2350,0.8100,0.0000,Planting Seeds
+8.603,0.2350,0.8100,0.0000,Planting Seeds
+8.653,0.2350,0.8100,0.0000,Planting Seeds
+8.703,0.2350,0.8100,0.0000,Planting Seeds
+8.753,0.2350,0.8100,0.0000,Planting Seeds
+8.803,0.2350,0.8100,0.0000,Planting Seeds
+8.853,0.2350,0.8100,0.0000,Planting Seeds
+8.903,0.2350,0.8100,0.0000,Planting Seeds
+8.953,0.2350,0.8100,0.0000,Planting Seeds
+9.003,0.2350,0.8100,0.0000,Planting Seeds
+9.053,0.2350,0.8100,0.0000,Planting Seeds
+9.103,0.2350,0.8100,0.0000,Planting Seeds
+9.153,0.2350,0.8100,0.0000,Planting Seeds
+9.203,0.2350,0.8100,0.0000,Planting Seeds
+9.253,0.2350,0.8100,0.0000,Planting Seeds
+9.303,0.2350,0.8100,0.0000,Planting Seeds
+9.353,0.2350,0.8100,0.0000,Planting Seeds
+9.403,0.2350,0.8100,0.0000,Planting Seeds
+9.453,0.2350,0.8100,0.0000,Planting Seeds
+9.503,0.2350,0.8100,0.0000,Planting Seeds
+9.553,0.2350,0.8100,0.0000,Planting Seeds
+9.603,0.2350,0.8100,0.0000,Planting Seeds
+9.653,0.2350,0.8100,0.0000,Planting Seeds
+9.703,0.2350,0.8100,0.0000,Planting Seeds
+9.753,0.2350,0.8100,0.0000,Planting Seeds
+9.803,0.2350,0.8100,0.0000,Planting Seeds
+9.853,0.2350,0.8100,0.0000,Planting Seeds
+9.903,0.2350,0.8100,0.0000,Planting Seeds
+9.953,0.2350,0.8100,0.0000,Planting Seeds
+10.003,0.2350,0.8100,0.0000,Planting Seeds
+10.053,0.2350,0.8100,0.0000,Planting Seeds
+10.103,0.2350,0.8100,0.0000,Planting Seeds
+10.153,0.2350,0.8100,0.0000,Planting Seeds
+10.203,0.2350,0.8100,0.0000,Planting Seeds
+10.253,0.2350,0.8100,0.0000,Planting Seeds
+10.303,0.2350,0.8100,0.0000,Planting Seeds
+10.353,0.2350,0.8100,0.0000,Planting Seeds
+10.403,0.2350,0.8100,0.0000,Planting Seeds
+10.453,0.2350,0.8100,0.0000,Planting Seeds
+10.503,0.2350,0.8100,0.0000,Planting Seeds
+10.553,0.2350,0.8100,0.0000,Planting Seeds
+10.603,0.2350,0.8100,0.0000,Planting Seeds
+10.653,0.2350,0.8100,0.0000,Planting Seeds
+10.653,0.2350,0.8100,0.0000,Traveling to Crop Plot
+10.703,0.2344,0.8105,0.0300,Traveling to Crop Plot
+10.753,0.2326,0.8118,0.0600,Traveling to Crop Plot
+10.803,0.2297,0.8142,0.0900,Traveling to Crop Plot
+10.853,0.2255,0.8174,0.1200,Traveling to Crop Plot
+10.903,0.2202,0.8216,0.1500,Traveling to Crop Plot
+10.953,0.2137,0.8266,0.1800,Traveling to Crop Plot
+11.003,0.2061,0.8326,0.2100,Traveling to Crop Plot
+11.053,0.1972,0.8396,0.2400,Traveling to Crop Plot
+11.103,0.1872,0.8474,0.2700,Traveling to Crop Plot
+11.153,0.1759,0.8562,0.3000,Traveling to Crop Plot
+11.203,0.1635,0.8659,0.3300,Traveling to Crop Plot
+11.236,0.1546,0.8729,0.3500,Traveling to Crop Plot
+11.270,0.1454,0.8801,0.3500,Traveling to Crop Plot
+11.320,0.1322,0.8904,0.3200,Traveling to Crop Plot
+11.370,0.1202,0.8998,0.2900,Traveling to Crop Plot
+11.420,0.1094,0.9083,0.2600,Traveling to Crop Plot
+11.470,0.0997,0.9158,0.2300,Traveling to Crop Plot
+11.520,0.0913,0.9225,0.2000,Traveling to Crop Plot
+11.570,0.0840,0.9282,0.1700,Traveling to Crop Plot
+11.620,0.0779,0.9329,0.1400,Traveling to Crop Plot
+11.670,0.0729,0.9368,0.1100,Traveling to Crop Plot
+11.720,0.0692,0.9397,0.0800,Traveling to Crop Plot
+11.770,0.0666,0.9417,0.0500,Traveling to Crop Plot
+11.820,0.0653,0.9428,0.0200,Traveling to Crop Plot
+11.870,0.0650,0.9430,0.0000,Planting Seeds
+11.920,0.0650,0.9430,0.0000,Planting Seeds
+11.970,0.0650,0.9430,0.0000,Planting Seeds
+12.020,0.0650,0.9430,0.0000,Planting Seeds
+12.070,0.0650,0.9430,0.0000,Planting Seeds
+12.120,0.0650,0.9430,0.0000,Planting Seeds
+12.170,0.0650,0.9430,0.0000,Planting Seeds
+12.220,0.0650,0.9430,0.0000,Planting Seeds
+12.270,0.0650,0.9430,0.0000,Planting Seeds
+12.320,0.0650,0.9430,0.0000,Planting Seeds
+12.370,0.0650,0.9430,0.0000,Planting Seeds
+12.420,0.0650,0.9430,0.0000,Planting Seeds
+12.470,0.0650,0.9430,0.0000,Planting Seeds
+12.520,0.0650,0.9430,0.0000,Planting Seeds
+12.570,0.0650,0.9430,0.0000,Planting Seeds
+12.620,0.0650,0.9430,0.0000,Planting Seeds
+12.670,0.0650,0.9430,0.0000,Planting Seeds
+12.720,0.0650,0.9430,0.0000,Planting Seeds
+12.770,0.0650,0.9430,0.0000,Planting Seeds
+12.820,0.0650,0.9430,0.0000,Planting Seeds
+12.870,0.0650,0.9430,0.0000,Planting Seeds
+12.920,0.0650,0.9430,0.0000,Planting Seeds
+12.970,0.0650,0.9430,0.0000,Planting Seeds
+13.020,0.0650,0.9430,0.0000,Planting Seeds
+13.070,0.0650,0.9430,0.0000,Planting Seeds
+13.120,0.0650,0.9430,0.0000,Planting Seeds
+13.170,0.0650,0.9430,0.0000,Planting Seeds
+13.220,0.0650,0.9430,0.0000,Planting Seeds
+13.270,0.0650,0.9430,0.0000,Planting Seeds
+13.320,0.0650,0.9430,0.0000,Planting Seeds
+13.370,0.0650,0.9430,0.0000,Planting Seeds
+13.420,0.0650,0.9430,0.0000,Planting Seeds
+13.470,0.0650,0.9430,0.0000,Planting Seeds
+13.520,0.0650,0.9430,0.0000,Planting Seeds
+13.570,0.0650,0.9430,0.0000,Planting Seeds
+13.620,0.0650,0.9430,0.0000,Planting Seeds
+13.670,0.0650,0.9430,0.0000,Planting Seeds
+13.720,0.0650,0.9430,0.0000,Planting Seeds
+13.770,0.0650,0.9430,0.0000,Planting Seeds
+13.820,0.0650,0.9430,0.0000,Planting Seeds
+13.870,0.0650,0.9430,0.0000,Planting Seeds
+13.920,0.0650,0.9430,0.0000,Planting Seeds
+13.970,0.0650,0.9430,0.0000,Planting Seeds
+14.020,0.0650,0.9430,0.0000,Planting Seeds
+14.070,0.0650,0.9430,0.0000,Planting Seeds
+14.120,0.0650,0.9430,0.0000,Planting Seeds
+14.170,0.0650,0.9430,0.0000,Planting Seeds
+14.220,0.0650,0.9430,0.0000,Planting Seeds
+14.270,0.0650,0.9430,0.0000,Planting Seeds
+14.320,0.0650,0.9430,0.0000,Planting Seeds
+14.370,0.0650,0.9430,0.0000,Planting Seeds
+14.420,0.0650,0.9430,0.0000,Planting Seeds
+14.470,0.0650,0.9430,0.0000,Planting Seeds
+14.520,0.0650,0.9430,0.0000,Planting Seeds
+14.570,0.0650,0.9430,0.0000,Planting Seeds
+14.620,0.0650,0.9430,0.0000,Planting Seeds
+14.670,0.0650,0.9430,0.0000,Planting Seeds
+14.720,0.0650,0.9430,0.0000,Planting Seeds
+14.770,0.0650,0.9430,0.0000,Planting Seeds
+14.820,0.0650,0.9430,0.0000,Planting Seeds
+14.820,0.0650,0.9430,0.0000,Returning to Start
+14.870,0.0656,0.9426,0.0300,Returning to Start
+14.920,0.0675,0.9413,0.0600,Returning to Start
+14.970,0.0706,0.9392,0.0900,Returning to Start
+15.020,0.0749,0.9363,0.1200,Returning to Start
+15.070,0.0805,0.9325,0.1500,Returning to Start
+15.120,0.0873,0.9278,0.1800,Returning to Start
+15.170,0.0954,0.9223,0.2100,Returning to Start
+15.220,0.1047,0.9160,0.2400,Returning to Start
+15.270,0.1152,0.9088,0.2700,Returning to Start
+15.320,0.1270,0.9008,0.3000,Returning to Start
+15.370,0.1401,0.8920,0.3300,Returning to Start
+15.403,0.1494,0.8856,0.3500,Returning to Start
+15.453,0.1639,0.8758,0.3500,Returning to Start
+15.503,0.1784,0.8659,0.3500,Returning to Start
+15.553,0.1928,0.8561,0.3500,Returning to Start
+15.603,0.2073,0.8463,0.3500,Returning to Start
+15.653,0.2218,0.8364,0.3500,Returning to Start
+15.703,0.2363,0.8266,0.3500,Returning to Start
+15.753,0.2507,0.8168,0.3500,Returning to Start
+15.803,0.2652,0.8069,0.3500,Returning to Start
+15.853,0.2797,0.7971,0.3500,Returning to Start
+15.903,0.2942,0.7872,0.3500,Returning to Start
+15.953,0.3086,0.7774,0.3500,Returning to Start
+16.003,0.3231,0.7676,0.3500,Returning to Start
+16.053,0.3376,0.7577,0.3500,Returning to Start
+16.103,0.3521,0.7479,0.3500,Returning to Start
+16.153,0.3665,0.7381,0.3500,Returning to Start
+16.203,0.3810,0.7282,0.3500,Returning to Start
+16.253,0.3955,0.7184,0.3500,Returning to Start
+16.303,0.4099,0.7085,0.3500,Returning to Start
+16.353,0.4244,0.6987,0.3500,Returning to Start
+16.403,0.4389,0.6889,0.3500,Returning to Start
+16.453,0.4534,0.6790,0.3500,Returning to Start
+16.503,0.4678,0.6692,0.3500,Returning to Start
+16.553,0.4823,0.6594,0.3500,Returning to Start
+16.603,0.4968,0.6495,0.3500,Returning to Start
+16.653,0.5113,0.6397,0.3500,Returning to Start
+16.703,0.5257,0.6298,0.3500,Returning to Start
+16.753,0.5402,0.6200,0.3500,Returning to Start
+16.803,0.5547,0.6102,0.3500,Returning to Start
+16.853,0.5691,0.6003,0.3500,Returning to Start
+16.903,0.5836,0.5905,0.3500,Returning to Start
+16.953,0.5981,0.5807,0.3500,Returning to Start
+17.003,0.6126,0.5708,0.3500,Returning to Start
+17.053,0.6270,0.5610,0.3500,Returning to Start
+17.103,0.6415,0.5511,0.3500,Returning to Start
+17.153,0.6560,0.5413,0.3500,Returning to Start
+17.203,0.6705,0.5315,0.3500,Returning to Start
+17.253,0.6849,0.5216,0.3500,Returning to Start
+17.303,0.6994,0.5118,0.3500,Returning to Start
+17.353,0.7139,0.5020,0.3500,Returning to Start
+17.403,0.7284,0.4921,0.3500,Returning to Start
+17.453,0.7428,0.4823,0.3500,Returning to Start
+17.503,0.7573,0.4724,0.3500,Returning to Start
+17.553,0.7718,0.4626,0.3500,Returning to Start
+17.603,0.7862,0.4528,0.3500,Returning to Start
+17.653,0.8007,0.4429,0.3500,Returning to Start
+17.703,0.8152,0.4331,0.3500,Returning to Start
+17.753,0.8297,0.4233,0.3500,Returning to Start
+17.803,0.8441,0.4134,0.3500,Returning to Start
+17.853,0.8586,0.4036,0.3500,Returning to Start
+17.903,0.8731,0.3937,0.3500,Returning to Start
+17.953,0.8876,0.3839,0.3500,Returning to Start
+18.003,0.9020,0.3741,0.3500,Returning to Start
+18.053,0.9165,0.3642,0.3500,Returning to Start
+18.088,0.9266,0.3574,0.3500,Returning to Start
+18.138,0.9404,0.3480,0.3200,Returning to Start
+18.188,0.9530,0.3394,0.2900,Returning to Start
+18.238,0.9644,0.3317,0.2600,Returning to Start
+18.288,0.9745,0.3248,0.2300,Returning to Start
+18.338,0.9834,0.3187,0.2000,Returning to Start
+18.388,0.9911,0.3135,0.1700,Returning to Start
+18.438,0.9975,0.3092,0.1400,Returning to Start
+18.488,1.0027,0.3057,0.1100,Returning to Start
+18.538,1.0066,0.3030,0.0800,Returning to Start
+18.588,1.0093,0.3012,0.0500,Returning to Start
+18.638,1.0107,0.3002,0.0200,Returning to Start
+18.688,1.0110,0.3000,0.0000,Loading Seeds
+18.738,1.0110,0.3000,0.0000,Loading Seeds
+18.788,1.0110,0.3000,0.0000,Loading Seeds
+18.838,1.0110,0.3000,0.0000,Loading Seeds
+18.888,1.0110,0.3000,0.0000,Loading Seeds
+18.938,1.0110,0.3000,0.0000,Loading Seeds
+18.988,1.0110,0.3000,0.0000,Loading Seeds
+19.038,1.0110,0.3000,0.0000,Loading Seeds
+19.088,1.0110,0.3000,0.0000,Loading Seeds
+19.138,1.0110,0.3000,0.0000,Loading Seeds
+19.188,1.0110,0.3000,0.0000,Loading Seeds
+19.238,1.0110,0.3000,0.0000,Loading Seeds
+19.288,1.0110,0.3000,0.0000,Loading Seeds
+19.338,1.0110,0.3000,0.0000,Loading Seeds
+19.388,1.0110,0.3000,0.0000,Loading Seeds
+19.438,1.0110,0.3000,0.0000,Loading Seeds
+19.488,1.0110,0.3000,0.0000,Loading Seeds
+19.538,1.0110,0.3000,0.0000,Loading Seeds
+19.588,1.0110,0.3000,0.0000,Loading Seeds
+19.638,1.0110,0.3000,0.0000,Loading Seeds
+19.688,1.0110,0.3000,0.0000,Loading Seeds
+19.738,1.0110,0.3000,0.0000,Loading Seeds
+19.788,1.0110,0.3000,0.0000,Loading Seeds
+19.838,1.0110,0.3000,0.0000,Loading Seeds
+19.888,1.0110,0.3000,0.0000,Loading Seeds
+19.938,1.0110,0.3000,0.0000,Loading Seeds
+19.988,1.0110,0.3000,0.0000,Loading Seeds
+20.038,1.0110,0.3000,0.0000,Loading Seeds
+20.088,1.0110,0.3000,0.0000,Loading Seeds
+20.138,1.0110,0.3000,0.0000,Loading Seeds
+20.188,1.0110,0.3000,0.0000,Loading Seeds
+20.238,1.0110,0.3000,0.0000,Loading Seeds
+20.288,1.0110,0.3000,0.0000,Loading Seeds
+20.338,1.0110,0.3000,0.0000,Loading Seeds
+20.388,1.0110,0.3000,0.0000,Loading Seeds
+20.438,1.0110,0.3000,0.0000,Loading Seeds
+20.488,1.0110,0.3000,0.0000,Loading Seeds
+20.538,1.0110,0.3000,0.0000,Loading Seeds
+20.588,1.0110,0.3000,0.0000,Loading Seeds
+20.638,1.0110,0.3000,0.0000,Loading Seeds
+20.688,1.0110,0.3000,0.0000,Loading Seeds
+20.738,1.0110,0.3000,0.0000,Loading Seeds
+20.788,1.0110,0.3000,0.0000,Loading Seeds
+20.838,1.0110,0.3000,0.0000,Loading Seeds
+20.888,1.0110,0.3000,0.0000,Loading Seeds
+20.938,1.0110,0.3000,0.0000,Loading Seeds
+20.988,1.0110,0.3000,0.0000,Loading Seeds
+21.038,1.0110,0.3000,0.0000,Loading Seeds
+21.088,1.0110,0.3000,0.0000,Loading Seeds
+21.138,1.0110,0.3000,0.0000,Loading Seeds
+21.138,1.0110,0.3000,0.0000,Traveling to Crop Plot
+21.188,1.0104,0.3005,0.0300,Traveling to Crop Plot
+21.238,1.0087,0.3019,0.0600,Traveling to Crop Plot
+21.288,1.0058,0.3043,0.0900,Traveling to Crop Plot
+21.338,1.0018,0.3077,0.1200,Traveling to Crop Plot
+21.388,0.9966,0.3120,0.1500,Traveling to Crop Plot
+21.438,0.9902,0.3172,0.1800,Traveling to Crop Plot
+21.488,0.9827,0.3234,0.2100,Traveling to Crop Plot
+21.538,0.9740,0.3306,0.2400,Traveling to Crop Plot
+21.588,0.9642,0.3388,0.2700,Traveling to Crop Plot
+21.638,0.9532,0.3479,0.3000,Traveling to Crop Plot
+21.688,0.9411,0.3579,0.3300,Traveling to Crop Plot
+21.721,0.9324,0.3651,0.3500,Traveling to Crop Plot
+21.771,0.9189,0.3763,0.3500,Traveling to Crop Plot
+21.821,0.9054,0.3875,0.3500,Traveling to Crop Plot
+21.871,0.8920,0.3986,0.3500,Traveling to Crop Plot
+21.921,0.8785,0.4098,0.3500,Traveling to Crop Plot
+21.971,0.8650,0.4210,0.3500,Traveling to Crop Plot
+22.021,0.8515,0.4321,0.3500,Traveling to Crop Plot
+22.071,0.8381,0.4433,0.3500,Traveling to Crop Plot
+22.121,0.8246,0.4545,0.3500,Traveling to Crop Plot
+22.171,0.8111,0.4656,0.3500,Traveling to Crop Plot
+22.221,0.7976,0.4768,0.3500,Traveling to Crop Plot
+22.271,0.7842,0.4880,0.3500,Traveling to Crop Plot
+22.321,0.7707,0.4991,0.3500,Traveling to Crop Plot
+22.371,0.7572,0.5103,0.3500,Traveling to Crop Plot
+22.421,0.7437,0.5215,0.3500,Traveling to Crop Plot
+22.471,0.7303,0.5326,0.3500,Traveling to Crop Plot
+22.521,0.7168,0.5438,0.3500,Traveling to Crop Plot
+22.571,0.7033,0.5549,0.3500,Traveling to Crop Plot
+22.621,0.6898,0.5661,0.3500,Traveling to Crop Plot
+22.671,0.6764,0.5773,0.3500,Traveling to Crop Plot
+22.721,0.6629,0.5884,0.3500,Traveling to Crop Plot
+22.771,0.6494,0.5996,0.3500,Traveling to Crop Plot
+22.821,0.6359,0.6108,0.3500,Traveling to Crop Plot
+22.871,0.6225,0.6219,0.3500,Traveling to Crop Plot
+22.921,0.6090,0.6331,0.3500,Traveling to Crop Plot
+22.971,0.5955,0.6443,0.3500,Traveling to Crop Plot
+23.021,0.5820,0.6554,0.3500,Traveling to Crop Plot
+23.071,0.5686,0.6666,0.3500,Traveling to Crop Plot
+23.121,0.5551,0.6778,0.3500,Traveling to Crop Plot
+23.171,0.5416,0.6889,0.3500,Traveling to Crop Plot
+23.221,0.5281,0.7001,0.3500,Traveling to Crop Plot
+23.271,0.5147,0.7113,0.3500,Traveling to Crop Plot
+23.321,0.5012,0.7224,0.3500,Traveling to Crop Plot
+23.371,0.4877,0.7336,0.3500,Traveling to Crop Plot
+23.421,0.4742,0.7448,0.3500,Traveling to Crop Plot
+23.471,0.4608,0.7559,0.3500,Traveling to Crop Plot
+23.521,0.4473,0.7671,0.3500,Traveling to Crop Plot
+23.571,0.4338,0.7783,0.3500,Traveling to Crop Plot
+23.621,0.4203,0.7894,0.3500,Traveling to Crop Plot
+23.671,0.4069,0.8006,0.3500,Traveling to Crop Plot
+23.721,0.3934,0.8118,0.3500,Traveling to Crop Plot
+23.771,0.3799,0.8229,0.3500,Traveling to Crop Plot
+23.821,0.3664,0.8341,0.3500,Traveling to Crop Plot
+23.871,0.3530,0.8453,0.3500,Traveling to Crop Plot
+23.921,0.3395,0.8564,0.3500,Traveling to Crop Plot
+23.971,0.3260,0.8676,0.3500,Traveling to Crop Plot
+24.017,0.3136,0.8779,0.3500,Traveling to Crop Plot
+24.067,0.3007,0.8886,0.3200,Traveling to Crop Plot
+24.117,0.2890,0.8983,0.2900,Traveling to Crop Plot
+24.167,0.2784,0.9071,0.2600,Traveling to Crop Plot
+24.217,0.2689,0.9149,0.2300,Traveling to Crop Plot
+24.267,0.2607,0.9217,0.2000,Traveling to Crop Plot
+24.317,0.2535,0.9276,0.1700,Traveling to Crop Plot
+24.367,0.2476,0.9326,0.1400,Traveling to Crop Plot
+24.417,0.2428,0.9366,0.1100,Traveling to Crop Plot
+24.467,0.2391,0.9396,0.0800,Traveling to Crop Plot
+24.517,0.2366,0.9417,0.0500,Traveling to Crop Plot
+24.567,0.2353,0.9428,0.0200,Traveling to Crop Plot
+24.617,0.2350,0.9430,0.0000,Planting Seeds
+24.667,0.2350,0.9430,0.0000,Planting Seeds
+24.717,0.2350,0.9430,0.0000,Planting Seeds
+24.767,0.2350,0.9430,0.0000,Planting Seeds
+24.817,0.2350,0.9430,0.0000,Planting Seeds
+24.867,0.2350,0.9430,0.0000,Planting Seeds
+24.917,0.2350,0.9430,0.0000,Planting Seeds
+24.967,0.2350,0.9430,0.0000,Planting Seeds
+25.017,0.2350,0.9430,0.0000,Planting Seeds
+25.067,0.2350,0.9430,0.0000,Planting Seeds
+25.117,0.2350,0.9430,0.0000,Planting Seeds
+25.167,0.2350,0.9430,0.0000,Planting Seeds
+25.217,0.2350,0.9430,0.0000,Planting Seeds
+25.267,0.2350,0.9430,0.0000,Planting Seeds
+25.317,0.2350,0.9430,0.0000,Planting Seeds
+25.367,0.2350,0.9430,0.0000,Planting Seeds
+25.417,0.2350,0.9430,0.0000,Planting Seeds
+25.467,0.2350,0.9430,0.0000,Planting Seeds
+25.517,0.2350,0.9430,0.0000,Planting Seeds
+25.567,0.2350,0.9430,0.0000,Planting Seeds
+25.617,0.2350,0.9430,0.0000,Planting Seeds
+25.667,0.2350,0.9430,0.0000,Planting Seeds
+25.717,0.2350,0.9430,0.0000,Planting Seeds
+25.767,0.2350,0.9430,0.0000,Planting Seeds
+25.817,0.2350,0.9430,0.0000,Planting Seeds
+25.867,0.2350,0.9430,0.0000,Planting Seeds
+25.917,0.2350,0.9430,0.0000,Planting Seeds
+25.967,0.2350,0.9430,0.0000,Planting Seeds
+26.017,0.2350,0.9430,0.0000,Planting Seeds
+26.067,0.2350,0.9430,0.0000,Planting Seeds
+26.117,0.2350,0.9430,0.0000,Planting Seeds
+26.167,0.2350,0.9430,0.0000,Planting Seeds
+26.217,0.2350,0.9430,0.0000,Planting Seeds
+26.267,0.2350,0.9430,0.0000,Planting Seeds
+26.317,0.2350,0.9430,0.0000,Planting Seeds
+26.367,0.2350,0.9430,0.0000,Planting Seeds
+26.417,0.2350,0.9430,0.0000,Planting Seeds
+26.467,0.2350,0.9430,0.0000,Planting Seeds
+26.517,0.2350,0.9430,0.0000,Planting Seeds
+26.567,0.2350,0.9430,0.0000,Planting Seeds
+26.617,0.2350,0.9430,0.0000,Planting Seeds
+26.667,0.2350,0.9430,0.0000,Planting Seeds
+26.717,0.2350,0.9430,0.0000,Planting Seeds
+26.767,0.2350,0.9430,0.0000,Planting Seeds
+26.817,0.2350,0.9430,0.0000,Planting Seeds
+26.867,0.2350,0.9430,0.0000,Planting Seeds
+26.917,0.2350,0.9430,0.0000,Planting Seeds
+26.967,0.2350,0.9430,0.0000,Planting Seeds
+27.017,0.2350,0.9430,0.0000,Planting Seeds
+27.067,0.2350,0.9430,0.0000,Planting Seeds
+27.117,0.2350,0.9430,0.0000,Planting Seeds
+27.167,0.2350,0.9430,0.0000,Planting Seeds
+27.217,0.2350,0.9430,0.0000,Planting Seeds
+27.267,0.2350,0.9430,0.0000,Planting Seeds
+27.317,0.2350,0.9430,0.0000,Planting Seeds
+27.367,0.2350,0.9430,0.0000,Planting Seeds
+27.417,0.2350,0.9430,0.0000,Planting Seeds
+27.467,0.2350,0.9430,0.0000,Planting Seeds
+27.517,0.2350,0.9430,0.0000,Planting Seeds
+27.567,0.2350,0.9430,0.0000,Planting Seeds
+27.567,0.2350,0.9430,0.0000,Traveling to Crop Plot
+27.617,0.2344,0.9435,0.0300,Traveling to Crop Plot
+27.667,0.2326,0.9448,0.0600,Traveling to Crop Plot
+27.717,0.2297,0.9472,0.0900,Traveling to Crop Plot
+27.767,0.2255,0.9504,0.1200,Traveling to Crop Plot
+27.817,0.2202,0.9546,0.1500,Traveling to Crop Plot
+27.867,0.2137,0.9596,0.1800,Traveling to Crop Plot
+27.917,0.2061,0.9656,0.2100,Traveling to Crop Plot
+27.967,0.1972,0.9726,0.2400,Traveling to Crop Plot
+28.017,0.1872,0.9804,0.2700,Traveling to Crop Plot
+28.067,0.1759,0.9892,0.3000,Traveling to Crop Plot
+28.117,0.1635,0.9989,0.3300,Traveling to Crop Plot
+28.150,0.1546,1.0059,0.3500,Traveling to Crop Plot
+28.184,0.1454,1.0131,0.3500,Traveling to Crop Plot
+28.234,0.1322,1.0234,0.3200,Traveling to Crop Plot
+28.284,0.1202,1.0328,0.2900,Traveling to Crop Plot
+28.334,0.1094,1.0413,0.2600,Traveling to Crop Plot
+28.384,0.0997,1.0488,0.2300,Traveling to Crop Plot
+28.434,0.0913,1.0555,0.2000,Traveling to Crop Plot
+28.484,0.0840,1.0612,0.1700,Traveling to Crop Plot
+28.534,0.0779,1.0659,0.1400,Traveling to Crop Plot
+28.584,0.0729,1.0698,0.1100,Traveling to Crop Plot
+28.634,0.0692,1.0727,0.0800,Traveling to Crop Plot
+28.684,0.0666,1.0747,0.0500,Traveling to Crop Plot
+28.734,0.0653,1.0758,0.0200,Traveling to Crop Plot
+28.784,0.0650,1.0760,0.0000,Planting Seeds
+28.834,0.0650,1.0760,0.0000,Planting Seeds
+28.884,0.0650,1.0760,0.0000,Planting Seeds
+28.934,0.0650,1.0760,0.0000,Planting Seeds
+28.984,0.0650,1.0760,0.0000,Planting Seeds
+29.034,0.0650,1.0760,0.0000,Planting Seeds
+29.084,0.0650,1.0760,0.0000,Planting Seeds
+29.134,0.0650,1.0760,0.0000,Planting Seeds
+29.184,0.0650,1.0760,0.0000,Planting Seeds
+29.234,0.0650,1.0760,0.0000,Planting Seeds
+29.284,0.0650,1.0760,0.0000,Planting Seeds
+29.334,0.0650,1.0760,0.0000,Planting Seeds
+29.384,0.0650,1.0760,0.0000,Planting Seeds
+29.434,0.0650,1.0760,0.0000,Planting Seeds
+29.484,0.0650,1.0760,0.0000,Planting Seeds
+29.534,0.0650,1.0760,0.0000,Planting Seeds
+29.584,0.0650,1.0760,0.0000,Planting Seeds
+29.634,0.0650,1.0760,0.0000,Planting Seeds
+29.684,0.0650,1.0760,0.0000,Planting Seeds
+29.734,0.0650,1.0760,0.0000,Planting Seeds
+29.784,0.0650,1.0760,0.0000,Planting Seeds
+29.834,0.0650,1.0760,0.0000,Planting Seeds
+29.884,0.0650,1.0760,0.0000,Planting Seeds
+29.934,0.0650,1.0760,0.0000,Planting Seeds
+29.984,0.0650,1.0760,0.0000,Planting Seeds
+30.034,0.0650,1.0760,0.0000,Planting Seeds
+30.084,0.0650,1.0760,0.0000,Planting Seeds
+30.134,0.0650,1.0760,0.0000,Planting Seeds
+30.184,0.0650,1.0760,0.0000,Planting Seeds
+30.234,0.0650,1.0760,0.0000,Planting Seeds
+30.284,0.0650,1.0760,0.0000,Planting Seeds
+30.334,0.0650,1.0760,0.0000,Planting Seeds
+30.384,0.0650,1.0760,0.0000,Planting Seeds
+30.434,0.0650,1.0760,0.0000,Planting Seeds
+30.484,0.0650,1.0760,0.0000,Planting Seeds
+30.534,0.0650,1.0760,0.0000,Planting Seeds
+30.584,0.0650,1.0760,0.0000,Planting Seeds
+30.634,0.0650,1.0760,0.0000,Planting Seeds
+30.684,0.0650,1.0760,0.0000,Planting Seeds
+30.734,0.0650,1.0760,0.0000,Planting Seeds
+30.784,0.0650,1.0760,0.0000,Planting Seeds
+30.834,0.0650,1.0760,0.0000,Planting Seeds
+30.884,0.0650,1.0760,0.0000,Planting Seeds
+30.934,0.0650,1.0760,0.0000,Planting Seeds
+30.984,0.0650,1.0760,0.0000,Planting Seeds
+31.034,0.0650,1.0760,0.0000,Planting Seeds
+31.084,0.0650,1.0760,0.0000,Planting Seeds
+31.134,0.0650,1.0760,0.0000,Planting Seeds
+31.184,0.0650,1.0760,0.0000,Planting Seeds
+31.234,0.0650,1.0760,0.0000,Planting Seeds
+31.284,0.0650,1.0760,0.0000,Planting Seeds
+31.334,0.0650,1.0760,0.0000,Planting Seeds
+31.384,0.0650,1.0760,0.0000,Planting Seeds
+31.434,0.0650,1.0760,0.0000,Planting Seeds
+31.484,0.0650,1.0760,0.0000,Planting Seeds
+31.534,0.0650,1.0760,0.0000,Planting Seeds
+31.584,0.0650,1.0760,0.0000,Planting Seeds
+31.634,0.0650,1.0760,0.0000,Planting Seeds
+31.684,0.0650,1.0760,0.0000,Planting Seeds
+31.734,0.0650,1.0760,0.0000,Planting Seeds
+31.734,0.0650,1.0760,0.0000,Traveling to Crop Plot
+31.784,0.0658,1.0760,0.0300,Traveling to Crop Plot
+31.834,0.0680,1.0760,0.0600,Traveling to Crop Plot
+31.884,0.0718,1.0760,0.0900,Traveling to Crop Plot
+31.934,0.0770,1.0760,0.1200,Traveling to Crop Plot
+31.984,0.0838,1.0760,0.1500,Traveling to Crop Plot
+32.034,0.0920,1.0760,0.1800,Traveling to Crop Plot
+32.084,0.1017,1.0760,0.2100,Traveling to Crop Plot
+32.134,0.1130,1.0760,0.2400,Traveling to Crop Plot
+32.184,0.1257,1.0760,0.2700,Traveling to Crop Plot
+32.234,0.1400,1.0760,0.3000,Traveling to Crop Plot
+32.266,0.1500,1.0760,0.3194,Traveling to Crop Plot
+32.316,0.1652,1.0760,0.2894,Traveling to Crop Plot
+32.366,0.1789,1.0760,0.2594,Traveling to Crop Plot
+32.416,0.1912,1.0760,0.2294,Traveling to Crop Plot
+32.466,0.2019,1.0760,0.1994,Traveling to Crop Plot
+32.516,0.2111,1.0760,0.1694,Traveling to Crop Plot
+32.566,0.2188,1.0760,0.1394,Traveling to Crop Plot
+32.616,0.2250,1.0760,0.1094,Traveling to Crop Plot
+32.666,0.2297,1.0760,0.0794,Traveling to Crop Plot
+32.716,0.2330,1.0760,0.0494,Traveling to Crop Plot
+32.766,0.2347,1.0760,0.0194,Traveling to Crop Plot
+32.816,0.2350,1.0760,0.0000,Planting Seeds
+32.866,0.2350,1.0760,0.0000,Planting Seeds
+32.916,0.2350,1.0760,0.0000,Planting Seeds
+32.966,0.2350,1.0760,0.0000,Planting Seeds
+33.016,0.2350,1.0760,0.0000,Planting Seeds
+33.066,0.2350,1.0760,0.0000,Planting Seeds
+33.116,0.2350,1.0760,0.0000,Planting Seeds
+33.166,0.2350,1.0760,0.0000,Planting Seeds
+33.216,0.2350,1.0760,0.0000,Planting Seeds
+33.266,0.2350,1.0760,0.0000,Planting Seeds
+33.316,0.2350,1.0760,0.0000,Planting Seeds
+33.366,0.2350,1.0760,0.0000,Planting Seeds
+33.416,0.2350,1.0760,0.0000,Planting Seeds
+33.466,0.2350,1.0760,0.0000,Planting Seeds
+33.516,0.2350,1.0760,0.0000,Planting Seeds
+33.566,0.2350,1.0760,0.0000,Planting Seeds
+33.616,0.2350,1.0760,0.0000,Planting Seeds
+33.666,0.2350,1.0760,0.0000,Planting Seeds
+33.716,0.2350,1.0760,0.0000,Planting Seeds
+33.766,0.2350,1.0760,0.0000,Planting Seeds
+33.816,0.2350,1.0760,0.0000,Planting Seeds
+33.866,0.2350,1.0760,0.0000,Planting Seeds
+33.916,0.2350,1.0760,0.0000,Planting Seeds
+33.966,0.2350,1.0760,0.0000,Planting Seeds
+34.016,0.2350,1.0760,0.0000,Planting Seeds
+34.066,0.2350,1.0760,0.0000,Planting Seeds
+34.116,0.2350,1.0760,0.0000,Planting Seeds
+34.166,0.2350,1.0760,0.0000,Planting Seeds
+34.216,0.2350,1.0760,0.0000,Planting Seeds
+34.266,0.2350,1.0760,0.0000,Planting Seeds
+34.316,0.2350,1.0760,0.0000,Planting Seeds
+34.366,0.2350,1.0760,0.0000,Planting Seeds
+34.416,0.2350,1.0760,0.0000,Planting Seeds
+34.466,0.2350,1.0760,0.0000,Planting Seeds
+34.516,0.2350,1.0760,0.0000,Planting Seeds
+34.566,0.2350,1.0760,0.0000,Planting Seeds
+34.616,0.2350,1.0760,0.0000,Planting Seeds
+34.666,0.2350,1.0760,0.0000,Planting Seeds
+34.716,0.2350,1.0760,0.0000,Planting Seeds
+34.766,0.2350,1.0760,0.0000,Planting Seeds
+34.816,0.2350,1.0760,0.0000,Planting Seeds
+34.866,0.2350,1.0760,0.0000,Planting Seeds
+34.916,0.2350,1.0760,0.0000,Planting Seeds
+34.966,0.2350,1.0760,0.0000,Planting Seeds
+35.016,0.2350,1.0760,0.0000,Planting Seeds
+35.066,0.2350,1.0760,0.0000,Planting Seeds
+35.116,0.2350,1.0760,0.0000,Planting Seeds
+35.166,0.2350,1.0760,0.0000,Planting Seeds
+35.216,0.2350,1.0760,0.0000,Planting Seeds
+35.266,0.2350,1.0760,0.0000,Planting Seeds
+35.316,0.2350,1.0760,0.0000,Planting Seeds
+35.366,0.2350,1.0760,0.0000,Planting Seeds
+35.416,0.2350,1.0760,0.0000,Planting Seeds
+35.466,0.2350,1.0760,0.0000,Planting Seeds
+35.516,0.2350,1.0760,0.0000,Planting Seeds
+35.566,0.2350,1.0760,0.0000,Planting Seeds
+35.616,0.2350,1.0760,0.0000,Planting Seeds
+35.666,0.2350,1.0760,0.0000,Planting Seeds
+35.716,0.2350,1.0760,0.0000,Planting Seeds
+35.766,0.2350,1.0760,0.0000,Planting Seeds
+35.766,0.2350,1.0760,0.0000,Returning to Start
+35.816,0.2355,1.0755,0.0300,Returning to Start
+35.866,0.2371,1.0739,0.0600,Returning to Start
+35.916,0.2398,1.0712,0.0900,Returning to Start
+35.966,0.2435,1.0675,0.1200,Returning to Start
+36.016,0.2483,1.0627,0.1500,Returning to Start
+36.066,0.2541,1.0569,0.1800,Returning to Start
+36.116,0.2610,1.0500,0.2100,Returning to Start
+36.166,0.2689,1.0421,0.2400,Returning to Start
+36.216,0.2780,1.0330,0.2700,Returning to Start
+36.266,0.2880,1.0230,0.3000,Returning to Start
+36.316,0.2992,1.0118,0.3300,Returning to Start
+36.349,0.3072,1.0038,0.3500,Returning to Start
+36.399,0.3196,0.9914,0.3500,Returning to Start
+36.449,0.3319,0.9791,0.3500,Returning to Start
+36.499,0.3443,0.9667,0.3500,Returning to Start
+36.549,0.3567,0.9543,0.3500,Returning to Start
+36.599,0.3691,0.9419,0.3500,Returning to Start
+36.649,0.3814,0.9296,0.3500,Returning to Start
+36.699,0.3938,0.9172,0.3500,Returning to Start
+36.749,0.4062,0.9048,0.3500,Returning to Start
+36.799,0.4186,0.8924,0.3500,Returning to Start
+36.849,0.4309,0.8801,0.3500,Returning to Start
+36.899,0.4433,0.8677,0.3500,Returning to Start
+36.949,0.4557,0.8553,0.3500,Returning to Start
+36.999,0.4681,0.8429,0.3500,Returning to Start
+37.049,0.4804,0.8306,0.3500,Returning to Start
+37.099,0.4928,0.8182,0.3500,Returning to Start
+37.149,0.5052,0.8058,0.3500,Returning to Start
+37.199,0.5175,0.7935,0.3500,Returning to Start
+37.249,0.5299,0.7811,0.3500,Returning to Start
+37.299,0.5423,0.7687,0.3500,Returning to Start
+37.349,0.5547,0.7563,0.3500,Returning to Start
+37.399,0.5670,0.7440,0.3500,Returning to Start
+37.449,0.5794,0.7316,0.3500,Returning to Start
+37.499,0.5918,0.7192,0.3500,Returning to Start
+37.549,0.6042,0.7068,0.3500,Returning to Start
+37.599,0.6165,0.6945,0.3500,Returning to Start
+37.649,0.6289,0.6821,0.3500,Returning to Start
+37.699,0.6413,0.6697,0.3500,Returning to Start
+37.749,0.6537,0.6573,0.3500,Returning to Start
+37.799,0.6660,0.6450,0.3500,Returning to Start
+37.849,0.6784,0.6326,0.3500,Returning to Start
+37.899,0.6908,0.6202,0.3500,Returning to Start
+37.949,0.7032,0.6078,0.3500,Returning to Start
+37.999,0.7155,0.5955,0.3500,Returning to Start
+38.049,0.7279,0.5831,0.3500,Returning to Start
+38.099,0.7403,0.5707,0.3500,Returning to Start
+38.149,0.7527,0.5583,0.3500,Returning to Start
+38.199,0.7650,0.5460,0.3500,Returning to Start
+38.249,0.7774,0.5336,0.3500,Returning to Start
+38.299,0.7898,0.5212,0.3500,Returning to Start
+38.349,0.8022,0.5088,0.3500,Returning to Start
+38.399,0.8145,0.4965,0.3500,Returning to Start
+38.449,0.8269,0.4841,0.3500,Returning to Start
+38.499,0.8393,0.4717,0.3500,Returning to Start
+38.549,0.8517,0.4593,0.3500,Returning to Start
+38.599,0.8640,0.4470,0.3500,Returning to Start
+38.649,0.8764,0.4346,0.3500,Returning to Start
+38.699,0.8888,0.4222,0.3500,Returning to Start
+38.749,0.9012,0.4098,0.3500,Returning to Start
+38.799,0.9135,0.3975,0.3500,Returning to Start
+38.849,0.9259,0.3851,0.3500,Returning to Start
+38.899,0.9383,0.3727,0.3500,Returning to Start
+38.902,0.9388,0.3722,0.3500,Returning to Start
+38.952,0.9507,0.3603,0.3200,Returning to Start
+39.002,0.9614,0.3496,0.2900,Returning to Start
+39.052,0.9712,0.3398,0.2600,Returning to Start
+39.102,0.9798,0.3312,0.2300,Returning to Start
+39.152,0.9874,0.3236,0.2000,Returning to Start
+39.202,0.9940,0.3170,0.1700,Returning to Start
+39.252,0.9995,0.3115,0.1400,Returning to Start
+39.302,1.0039,0.3071,0.1100,Returning to Start
+39.352,1.0072,0.3038,0.0800,Returning to Start
+39.402,1.0095,0.3015,0.0500,Returning to Start
+39.452,1.0108,0.3002,0.0200,Returning to Start

@@ -3,12 +3,12 @@
 # Mission 1: Cultivation and Irrigation - AUTHORITATIVE FIELD CONFIGURATION
 # ===============================================================================
 # OFFICIAL DIAGRAM GEOMETRY (PRIMARY SOURCE OF TRUTH):
-#   Field dimensions: 1181 mm (width/X) × 1143 mm (height/Y)
-#   Converted to meters: 1.181 m (X) × 1.143 m (Y)
+#   Field dimensions: 1171 mm (width/X) × 1143 mm (height/Y)
+#   Converted to meters: 1.171 m (X) × 1.143 m (Y)
 #
 # COORDINATE SYSTEM:
 #   Origin (0,0) = Bottom-left corner of field
-#   X-axis = Width (1.181 m, left to right)
+#   X-axis = Width (1.171 m, left to right)
 #   Y-axis = Height (1.143 m, bottom to top)
 #
 # ZONE LAYOUT (from diagram):
@@ -21,7 +21,7 @@
 
 world:
   name: "ITU Robotics Competition - Mission 1 Field (Diagram-Accurate Digital Twin)"
-  width: 1.181   # meters (1181 mm - exact diagram width, X-axis)
+  width: 1.171   # meters (1171 mm - exact diagram width, X-axis)
   height: 1.143  # meters (1143 mm - exact diagram height, Y-axis)
   step: 0.05     # 50mm grid resolution (0.05 m per cell)
   sample_time: 0.05  # 50ms simulation timestep
@@ -37,12 +37,12 @@ robot:
   
   # Start position: Centered in Robot Start Zone (bottom-right)
   # Start zone: 320mm × 600mm, located at bottom-right corner
-  # Zone boundaries: X: [1.181 - 0.320, 1.181] = [0.861, 1.181]
+  # Zone boundaries: X: [1.171 - 0.320, 1.171] = [0.851, 1.171]
   #                 Y: [0.000, 0.600]
-  position: [1.021, 0.300, 1.5708]  # [x, y, theta]
-  # x = 0.861 + 0.320/2 = 1.021 m (center of start zone horizontally)
+  position: [1.011, 0.300, 3.14159]  # [x, y, theta]
+  # x = 0.851 + 0.320/2 = 1.011 m (center of start zone horizontally)
   # y = 0.600/2 = 0.300 m (center of start zone vertically)
-  # theta = π/2 rad (90°, facing upward toward mission area)
+  # theta = π rad (180°, facing LEFT toward mission area)
   
   velocity:
     max_linear: 0.35   # m/s (350 mm/s - realistic LEGO speed)
@@ -71,15 +71,15 @@ obstacles:
   # Bottom wall
   - type: "rectangle"
     name: "boundary_bottom"
-    position: [0.5905, 0.010]  # y = wall_thickness/2
-    width: 1.181   # Full field width
+    position: [0.5855, 0.010]  # y = wall_thickness/2, x = 1.171/2
+    width: 1.171   # Full field width
     height: 0.020
   
   # Top wall
   - type: "rectangle"
     name: "boundary_top"
-    position: [0.5905, 1.133]  # y = 1.143 - 0.010
-    width: 1.181
+    position: [0.5855, 1.133]  # y = 1.143 - 0.010, x = 1.171/2
+    width: 1.171
     height: 0.020
   
   # Left wall
@@ -92,7 +92,7 @@ obstacles:
   # Right wall
   - type: "rectangle"
     name: "boundary_right"
-    position: [1.171, 0.5715]  # x = 1.181 - 0.010
+    position: [1.161, 0.5715]  # x = 1.171 - 0.010
     width: 0.020
     height: 1.143
 
@@ -221,14 +221,14 @@ obstacles:
   # Start zone left boundary (separates from Orange zone)
   - type: "rectangle"
     name: "start_zone_left_boundary"
-    position: [0.861, 0.300]  # X = 1.181 - 0.320 = 0.861
+    position: [0.851, 0.300]  # X = 1.171 - 0.320 = 0.851
     width: 0.020   # 20mm boundary wall
     height: 0.600  # Full start zone height
   
   # Start zone top boundary (separates from Orange zone)
   - type: "rectangle"
     name: "start_zone_top_boundary"
-    position: [1.021, 0.600]  # Y = 0.600
+    position: [1.011, 0.600]  # Y = 0.600
     width: 0.320   # Full start zone width
     height: 0.020
 
@@ -251,7 +251,7 @@ obstacles:
 goals:
   # Robot start position (center of start zone, bottom-right)
   - name: "start_zone_center"
-    position: [1.021, 0.300]
+    position: [1.011, 0.300]
     description: "Robot spawn point - center of start zone (bottom-right)"
   
   # Crop plot target (center of 2×3 grid, top-left)
@@ -260,28 +260,29 @@ goals:
     description: "Crop plot center - seed placement target"
   
   # Individual crop plot cells (for precise seed placement)
+  # Based on official diagram: 2×3 grid at top-left corner
   - name: "crop_cell_1_1"
-    position: [0.100, 0.810]
+    position: [0.065, 0.810]
     description: "Crop cell: row 1, column 1 (bottom-left)"
   
   - name: "crop_cell_1_2"
-    position: [0.250, 0.810]
+    position: [0.235, 0.810]
     description: "Crop cell: row 1, column 2 (bottom-right)"
   
   - name: "crop_cell_2_1"
-    position: [0.100, 0.943]
+    position: [0.065, 0.943]
     description: "Crop cell: row 2, column 1 (middle-left)"
   
   - name: "crop_cell_2_2"
-    position: [0.250, 0.943]
+    position: [0.235, 0.943]
     description: "Crop cell: row 2, column 2 (middle-right)"
   
   - name: "crop_cell_3_1"
-    position: [0.100, 1.076]
+    position: [0.065, 1.076]
     description: "Crop cell: row 3, column 1 (top-left)"
   
   - name: "crop_cell_3_2"
-    position: [0.250, 1.076]
+    position: [0.235, 1.076]
     description: "Crop cell: row 3, column 2 (top-right)"
   
   # Colored crop plot sections for two-trip strategy
@@ -342,7 +343,7 @@ goals:
     description: "Approach waypoint before entering crop plot area"
   
   - name: "start_zone_exit"
-    position: [0.861, 0.300]
+    position: [0.851, 0.300]
     description: "Exit point from start zone to mission area"
 
 # ===============================================================================
@@ -392,15 +393,15 @@ mission:
 # ===============================================================================
 validation:
   field_dimensions:
-    width: 1.181   # meters (X-axis)
+    width: 1.171   # meters (X-axis)
     height: 1.143  # meters (Y-axis)
-    total_area: 1.34958  # m² (1.181 × 1.143)
+    total_area: 1.33845  # m² (1.171 × 1.143)
   
   grid_resolution:
     cell_size: 0.05  # meters (50mm per grid cell)
-    cells_x: 24      # grid cells along X-axis (1181mm / 50mm ≈ 24)
+    cells_x: 23      # grid cells along X-axis (1171mm / 50mm ≈ 23)
     cells_y: 23      # grid cells along Y-axis (1143mm / 50mm ≈ 23)
-    total_cells: 552
+    total_cells: 529
   
   zone_areas:
     crop_plot: 0.120        # m² (0.300 × 0.400)

@@ -117,24 +117,39 @@ class Mission1Simulator:
     def _define_waypoints(self):
         """Define waypoints for crop plot cells and irrigation gate."""
         # New field layout: single 2×3 crop plot with 6 individual cells
+        # Coordinates updated to match official diagram (1.171m × 1.143m field)
         self.crop_plots = {
-            'cell_1_1': self.goals['crop_cell_1_1'],  # Bottom-left
-            'cell_1_2': self.goals['crop_cell_1_2'],  # Bottom-right
-            'cell_2_1': self.goals['crop_cell_2_1'],  # Middle-left
-            'cell_2_2': self.goals['crop_cell_2_2'],  # Middle-right
-            'cell_3_1': self.goals['crop_cell_3_1'],  # Top-left
-            'cell_3_2': self.goals['crop_cell_3_2']   # Top-right
+            'cell_1_1': self.goals['crop_cell_1_1'],  # Bottom-left [0.065, 0.810]
+            'cell_1_2': self.goals['crop_cell_1_2'],  # Bottom-right [0.235, 0.810]
+            'cell_2_1': self.goals['crop_cell_2_1'],  # Middle-left [0.065, 0.943]
+            'cell_2_2': self.goals['crop_cell_2_2'],  # Middle-right [0.235, 0.943]
+            'cell_3_1': self.goals['crop_cell_3_1'],  # Top-left [0.065, 1.076]
+            'cell_3_2': self.goals['crop_cell_3_2']   # Top-right [0.235, 1.076]
         }
         self.crop_plot_center = self.goals['crop_plot_center']
         self.irrigation_gate_pos = self.goals['irrigation_gate_entrance']
         
+        # Start position (center of start zone at bottom-right)
+        # Field is 1.171m wide, start zone is 0.320m wide at right edge
+        # Robot starts at [1.011, 0.300] facing left (π radians)
+        self.start_pos = self.goals.get('start_zone_center', np.array([1.011, 0.300]))
+        
         # Colored plot sections for two-trip strategy
+        # Note: These refer to SEED TYPES, not separate physical areas
+        # All cells are in one 2×3 grid structure
         self.colored_plots = {
             'orange': self.goals.get('orange_plot', self.goals['crop_cell_1_1']),  # Bottom section
             'gray': self.goals.get('gray_plot', self.goals['crop_cell_2_1']),      # Middle section
             'green': self.goals.get('green_plot', self.goals['crop_cell_3_1'])     # Top section
         }
-        self.trip1_midpoint = self.goals.get('trip1_midpoint', np.array([0.175, 0.877]))
+        self.trip1_midpoint = self.goals.get('trip1_midpoint', np.array([0.150, 0.877]))
+        
+        # Define irrigation gate positions (not used in Part 1 simulation)
+        self.irrigation_gates = {
+            'gate_top': np.array([0.020, 1.010]),     # Left of cells 3,1 and 3,2
+            'gate_middle': np.array([0.020, 0.877]), # Left of cells 2,1 and 2,2
+            'gate_bottom': np.array([0.020, 0.744])  # Left of cells 1,1 and 1,2
+        }
         
     def calculate_travel_time(self, start: np.ndarray, end: np.ndarray, 
                              current_velocity: float = 0.0) -> Tuple[float, float]:
@@ -739,35 +754,58 @@ class Mission1Simulator:
     
     def _draw_field_elements(self, ax):
         """Draw static field elements on the axis."""
-        # Draw boundaries
+        # Draw boundaries - field is 1.171m x 1.143m
         ax.add_patch(Rectangle((0, 0), self.field_width, self.field_height,
                               linewidth=3, edgecolor='black', facecolor='white'))
         
-        # Draw start zone (bottom-right)
-        start_zone_x = self.field_width - 0.320
-        start_zone = Rectangle((start_zone_x, 0.020), 0.300, 0.580,
-                               linewidth=2, edgecolor='blue', facecolor='lightblue', alpha=0.3)
-        ax.add_patch(start_zone)
-        ax.text(start_zone_x + 0.150, 0.300, 'START\nZONE', 
-               ha='center', va='center', fontsize=9, fontweight='bold', color='darkblue')
+        # Add field dimension labels
+        ax.text(self.field_width/2, -0.03, f'Width: {self.field_width}m', 
+               ha='center', va='top', fontsize=8, color='gray')
+        ax.text(-0.03, self.field_height/2, f'Height: {self.field_height}m', 
+               ha='right', va='center', fontsize=8, color='gray', rotation=90)
         
-        # Draw crop plot area
+        # Draw start zone (BOTTOM-RIGHT) - 320mm × 600mm
+        # Field width is 1.171m, so start zone begins at X = 1.171 - 0.320 = 0.851
+        start_zone_x = self.field_width - 0.320  # 0.851m
+        start_zone = Rectangle((start_zone_x, 0.000), 0.320, 0.600,
+                               linewidth=3, edgecolor='blue', facecolor='lightblue', alpha=0.4)
+        ax.add_patch(start_zone)
+        ax.text(start_zone_x + 0.160, 0.300, 'START\nZONE\n(BOTTOM-RIGHT)', 
+               ha='center', va='center', fontsize=8, fontweight='bold', color='darkblue')
+        
+        # Draw robot start position marker with heading arrow (facing LEFT = π radians)
+        robot_x, robot_y = self.start_position[0], self.start_position[1]
+        ax.plot(robot_x, robot_y, 'o', color='red', markersize=12, 
+               markeredgecolor='darkred', markeredgewidth=2, zorder=10)
+        # Arrow pointing LEFT (π radians = 180°)
+        ax.arrow(robot_x, robot_y, -0.08, 0, head_width=0.03, head_length=0.02,
+                fc='red', ec='darkred', linewidth=2, zorder=11)
+        ax.text(robot_x, robot_y + 0.05, 'Robot\n(facing LEFT)', 
+               ha='center', va='bottom', fontsize=7, color='red')
+        
+        # Draw crop plot area (TOP-LEFT) - 2x3 grid
         ax.add_patch(Rectangle((0.025, 0.743), 0.300, 0.400,
                               linewidth=3, edgecolor='darkgreen', facecolor='lightgreen', alpha=0.2))
-        ax.text(0.175, 0.720, 'CROP PLOT', 
-               ha='center', va='top', fontsize=9, fontweight='bold', color='darkgreen')
+        ax.text(0.175, 1.155, 'CROP PLOT\n(TOP-LEFT)\n2×3 Grid', 
+               ha='center', va='bottom', fontsize=8, fontweight='bold', color='darkgreen')
         
-        # Draw crop cells
-        for cell_pos in self.crop_plots.values():
+        # Draw crop cells with labels
+        cell_labels = {'cell_1_1': '1,1', 'cell_1_2': '1,2', 
+                      'cell_2_1': '2,1', 'cell_2_2': '2,2',
+                      'cell_3_1': '3,1', 'cell_3_2': '3,2'}
+        for cell_name, cell_pos in self.crop_plots.items():
             ax.add_patch(Rectangle((cell_pos[0] - 0.04, cell_pos[1] - 0.055), 
                                   0.08, 0.11, linewidth=1, edgecolor='green', 
                                   facecolor='lightgreen', alpha=0.4))
             ax.plot(cell_pos[0], cell_pos[1], 'o', color='green', markersize=5)
+            label = cell_labels.get(cell_name, '')
+            ax.text(cell_pos[0], cell_pos[1], label, ha='center', va='center', 
+                   fontsize=6, color='darkgreen')
         
-        # Draw sorting zone
+        # Draw sorting zone (BOTTOM-LEFT)
         ax.add_patch(Rectangle((0.020, 0.020), 0.275, 0.446,
                               linewidth=2, edgecolor='orange', facecolor='yellow', alpha=0.2))
-        ax.text(0.1575, 0.480, 'SORTING', ha='center', va='top', 
+        ax.text(0.1575, 0.243, 'SORTING\nZONE\n(BOTTOM-LEFT)', ha='center', va='center', 
                fontsize=8, fontweight='bold', color='darkorange')
         
         # Draw irrigation gate
@@ -799,23 +837,37 @@ class Mission1Simulator:
                                linewidth=3, edgecolor='black', facecolor='lightgray', alpha=0.2)
         ax1.add_patch(field_rect)
         
-        # Draw start zone (bottom-right corner: 320mm × 600mm)
-        start_zone_x = self.field_width - 0.320
+# Draw start zone (BOTTOM-RIGHT corner: 320mm × 600mm)
+        # For 1.171m field width: start zone begins at X = 0.851
+        start_zone_x = self.field_width - 0.320  # = 0.851
         start_zone = Rectangle((start_zone_x, 0), 0.320, 0.600,
-                               linewidth=2, edgecolor='blue', facecolor='lightblue', alpha=0.3)
+                               linewidth=3, edgecolor='blue', facecolor='lightblue', alpha=0.4)
         ax1.add_patch(start_zone)
-        ax1.text(start_zone_x + 0.160, 0.300, 'START\nZONE', 
-                ha='center', va='center', fontsize=10, fontweight='bold', color='darkblue')
+        ax1.text(start_zone_x + 0.160, 0.300, 'START ZONE\n(BOTTOM-RIGHT)\n320×600mm',
+                ha='center', va='center', fontsize=9, fontweight='bold', color='darkblue')
         
-        # Draw crop plot area (top-left: 300mm × 400mm with 2×3 grid)
+        # Draw robot initial position with heading arrow (facing LEFT)
+        robot_x, robot_y = self.start_position[0], self.start_position[1]
+        ax1.plot(robot_x, robot_y, 'o', color='purple', markersize=15, 
+                markeredgecolor='black', markeredgewidth=2, zorder=5, label='Robot Start [1.011, 0.300]')
+        # Arrow pointing LEFT (π radians = facing left toward mission area)
+        ax1.arrow(robot_x, robot_y, -0.10, 0, head_width=0.04, head_length=0.025,
+                fc='purple', ec='black', linewidth=2, zorder=6)
+        ax1.text(robot_x, robot_y - 0.08, 'Robot facing LEFT (π rad)', 
+                ha='center', va='top', fontsize=8, color='purple', fontweight='bold')
+        
+        # Draw crop plot area (TOP-LEFT: 300mm × 400mm with 2×3 grid)
         crop_plot_outer = Rectangle((0.025, 0.743), 0.300, 0.400,
                                    linewidth=3, edgecolor='darkgreen', facecolor='lightgreen', alpha=0.2)
         ax1.add_patch(crop_plot_outer)
-        ax1.text(0.175, 0.720, 'CROP PLOT\n(2×3 Grid)', 
-                ha='center', va='top', fontsize=9, fontweight='bold', color='darkgreen')
+        ax1.text(0.175, 1.155, 'CROP PLOT (TOP-LEFT)\n2×3 Grid - 6 Cells', 
+                ha='center', va='bottom', fontsize=9, fontweight='bold', color='darkgreen')
         
-        # Draw individual crop cells
-        for i, (cell_name, cell_pos) in enumerate(self.crop_plots.items()):
+        # Draw individual crop cells with row,col labels
+        cell_labels = {'cell_1_1': '(1,1)', 'cell_1_2': '(1,2)', 
+                      'cell_2_1': '(2,1)', 'cell_2_2': '(2,2)',
+                      'cell_3_1': '(3,1)', 'cell_3_2': '(3,2)'}
+        for cell_name, cell_pos in self.crop_plots.items():
             cell_rect = Rectangle((cell_pos[0] - 0.04, cell_pos[1] - 0.055), 
                                  0.08, 0.11,
                                  linewidth=1.5, edgecolor='green', 
@@ -823,13 +875,16 @@ class Mission1Simulator:
             ax1.add_patch(cell_rect)
             ax1.plot(cell_pos[0], cell_pos[1], 'o', color='green', 
                     markersize=6, markeredgecolor='darkgreen', markeredgewidth=1.5)
+            label = cell_labels.get(cell_name, '')
+            ax1.text(cell_pos[0], cell_pos[1], label, ha='center', va='center', 
+                    fontsize=7, color='darkgreen', fontweight='bold')
         
-        # Draw sorting zone (bottom-left: 275mm × 446mm)
+        # Draw sorting zone (BOTTOM-LEFT: 275mm × 446mm)
         sorting_zone = Rectangle((0.020, 0.020), 0.275, 0.446,
                                 linewidth=2, edgecolor='orange', facecolor='yellow', alpha=0.2)
         ax1.add_patch(sorting_zone)
-        ax1.text(0.1575, 0.480, 'SORTING\nZONE', 
-                ha='center', va='top', fontsize=9, fontweight='bold', color='darkorange')
+        ax1.text(0.1575, 0.243, 'SORTING ZONE\n(BOTTOM-LEFT)\n275×446mm', 
+                ha='center', va='center', fontsize=9, fontweight='bold', color='darkorange')
         
         # Draw irrigation corridor (left side, vertical)
         corridor_rect = Rectangle((0.020, 0.250), 0.155, 0.600,
@@ -1506,6 +1561,381 @@ class Mission1Simulator:
         }
 
 
+    def simulate_cell_based_two_trip(self,
+                                     trip1_cells: List[str] = None,
+                                     trip2_cells: List[str] = None,
+                                     seed_reload_time: float = 2.5,
+                                     include_irrigation: bool = False,
+                                     save_trajectory: bool = True) -> Dict:
+        """
+        Simulate a cell-based two-trip seed planting strategy visiting individual cells.
+        
+        This uses the official diagram layout with 6 individual crop cells in a 2×3 grid.
+        The robot visits 3 cells in Trip 1, returns to reload, then visits remaining 3 cells.
+        
+        Args:
+            trip1_cells: List of cell names for Trip 1 (default: ['cell_1_1', 'cell_1_2', 'cell_2_1'])
+            trip2_cells: List of cell names for Trip 2 (default: ['cell_2_2', 'cell_3_1', 'cell_3_2'])
+            seed_reload_time: Time to wait at Start Zone between trips (seconds)
+            include_irrigation: Whether to include irrigation gate visit (Part 2, default False for Part 1)
+            save_trajectory: Whether to save trajectory data
+            
+        Returns:
+            Dictionary with detailed metrics for both trips
+        """
+        if trip1_cells is None:
+            trip1_cells = ['cell_1_1', 'cell_1_2', 'cell_2_1']  # Trip 1: first 3 cells
+        if trip2_cells is None:
+            trip2_cells = ['cell_2_2', 'cell_3_1', 'cell_3_2']  # Trip 2: remaining 3 cells
+        
+        print("\n" + "="*70)
+        print("CELL-BASED TWO-TRIP STRATEGY (6 Individual Cells)")
+        print("="*70)
+        print(f"Field: 1.171m × 1.143m | Robot Start: [1.011, 0.300] facing LEFT")
+        print(f"Trip 1 Cells: {' → '.join(trip1_cells)}")
+        print(f"Trip 2 Cells: {' → '.join(trip2_cells)}")
+        print(f"Seed Reload Time: {seed_reload_time} s")
+        print(f"Include Irrigation: {include_irrigation} (Part 1 = planting only)")
+        print("="*70 + "\n")
+        
+        # Reset trajectory data
+        self.trajectory = []
+        self.time_log = []
+        self.phase_log = []
+        self.velocity_log = []
+        
+        current_pos = self.start_position.copy()
+        current_time = 0.0
+        total_distance = 0.0
+        trip_metrics = []
+        
+        # =====================================================================
+        # TRIP 1: Visit first 3 crop cells
+        # =====================================================================
+        print("=" * 50)
+        print("TRIP 1: First 3 Crop Cells")
+        print("=" * 50)
+        
+        trip1_start_time = current_time
+        trip1_distance = 0.0
+        
+        for cell_name in trip1_cells:
+            if cell_name not in self.crop_plots:
+                print(f"  Warning: Unknown cell '{cell_name}', skipping")
+                continue
+            
+            cell_pos = self.crop_plots[cell_name]
+            print(f"\n  → Traveling to {cell_name}...")
+            
+            # Generate trajectory to cell
+            points, times, velocities = self._generate_segment_trajectory(
+                current_pos, cell_pos, current_time
+            )
+            
+            self.trajectory.extend(points)
+            self.time_log.extend(times)
+            self.velocity_log.extend(velocities)
+            self.phase_log.extend([MissionPhase.TRAVELING_TO_PLOT] * len(points))
+            
+            distance = np.linalg.norm(cell_pos - current_pos)
+            travel_time = times[-1] - current_time
+            current_time = times[-1]
+            trip1_distance += distance
+            total_distance += distance
+            
+            print(f"    Position: [{cell_pos[0]:.3f}, {cell_pos[1]:.3f}]")
+            print(f"    Distance: {distance:.3f} m | Travel Time: {travel_time:.2f} s")
+            
+            # Planting seeds at cell
+            print(f"    Planting seeds ({self.seed_placement_time:.1f} s)...")
+            num_stop_points = int(self.seed_placement_time / self.dt)
+            for _ in range(num_stop_points):
+                self.trajectory.append(cell_pos.copy())
+                current_time += self.dt
+                self.time_log.append(current_time)
+                self.velocity_log.append(0.0)
+                self.phase_log.append(MissionPhase.PLANTING)
+            
+            current_pos = cell_pos
+            print(f"    Cumulative Time: {current_time:.2f} s")
+        
+        # Return to Start Zone after Trip 1
+        print(f"\n  ← Returning to Start Zone [1.011, 0.300]...")
+        points, times, velocities = self._generate_segment_trajectory(
+            current_pos, self.start_position, current_time
+        )
+        
+        self.trajectory.extend(points)
+        self.time_log.extend(times)
+        self.velocity_log.extend(velocities)
+        self.phase_log.extend([MissionPhase.RETURNING] * len(points))
+        
+        return_distance = np.linalg.norm(self.start_position - current_pos)
+        return_time = times[-1] - current_time
+        current_time = times[-1]
+        trip1_distance += return_distance
+        total_distance += return_distance
+        
+        trip1_total_time = current_time - trip1_start_time
+        
+        print(f"    Return Distance: {return_distance:.3f} m | Return Time: {return_time:.2f} s")
+        print(f"\n  ✓ TRIP 1 COMPLETE")
+        print(f"    Cells visited: {len(trip1_cells)}")
+        print(f"    Trip 1 Distance: {trip1_distance:.3f} m")
+        print(f"    Trip 1 Time: {trip1_total_time:.2f} s")
+        
+        trip_metrics.append({
+            'trip': 1,
+            'cells_visited': trip1_cells,
+            'distance': trip1_distance,
+            'time': trip1_total_time
+        })
+        
+        # =====================================================================
+        # SEED RELOAD AT START ZONE
+        # =====================================================================
+        print(f"\n  ⏳ RELOADING SEEDS at Start Zone ({seed_reload_time:.1f} s)...")
+        num_reload_points = int(seed_reload_time / self.dt)
+        for _ in range(num_reload_points):
+            self.trajectory.append(self.start_position.copy())
+            current_time += self.dt
+            self.time_log.append(current_time)
+            self.velocity_log.append(0.0)
+            self.phase_log.append(MissionPhase.LOADING)
+        
+        current_pos = self.start_position.copy()
+        print(f"    Cumulative Time: {current_time:.2f} s")
+        
+        # =====================================================================
+        # TRIP 2: Visit remaining 3 crop cells
+        # =====================================================================
+        print("\n" + "=" * 50)
+        print("TRIP 2: Remaining 3 Crop Cells")
+        print("=" * 50)
+        
+        trip2_start_time = current_time
+        trip2_distance = 0.0
+        
+        for cell_name in trip2_cells:
+            if cell_name not in self.crop_plots:
+                print(f"  Warning: Unknown cell '{cell_name}', skipping")
+                continue
+            
+            cell_pos = self.crop_plots[cell_name]
+            print(f"\n  → Traveling to {cell_name}...")
+            
+            # Generate trajectory to cell
+            points, times, velocities = self._generate_segment_trajectory(
+                current_pos, cell_pos, current_time
+            )
+            
+            self.trajectory.extend(points)
+            self.time_log.extend(times)
+            self.velocity_log.extend(velocities)
+            self.phase_log.extend([MissionPhase.TRAVELING_TO_PLOT] * len(points))
+            
+            distance = np.linalg.norm(cell_pos - current_pos)
+            travel_time = times[-1] - current_time
+            current_time = times[-1]
+            trip2_distance += distance
+            total_distance += distance
+            
+            print(f"    Position: [{cell_pos[0]:.3f}, {cell_pos[1]:.3f}]")
+            print(f"    Distance: {distance:.3f} m | Travel Time: {travel_time:.2f} s")
+            
+            # Planting seeds at cell
+            print(f"    Planting seeds ({self.seed_placement_time:.1f} s)...")
+            num_stop_points = int(self.seed_placement_time / self.dt)
+            for _ in range(num_stop_points):
+                self.trajectory.append(cell_pos.copy())
+                current_time += self.dt
+                self.time_log.append(current_time)
+                self.velocity_log.append(0.0)
+                self.phase_log.append(MissionPhase.PLANTING)
+            
+            current_pos = cell_pos
+            print(f"    Cumulative Time: {current_time:.2f} s")
+        
+        # Return to Start Zone after Trip 2
+        print(f"\n  ← Returning to Start Zone [1.011, 0.300]...")
+        points, times, velocities = self._generate_segment_trajectory(
+            current_pos, self.start_position, current_time
+        )
+        
+        self.trajectory.extend(points)
+        self.time_log.extend(times)
+        self.velocity_log.extend(velocities)
+        self.phase_log.extend([MissionPhase.RETURNING] * len(points))
+        
+        return_distance = np.linalg.norm(self.start_position - current_pos)
+        return_time = times[-1] - current_time
+        current_time = times[-1]
+        trip2_distance += return_distance
+        total_distance += return_distance
+        
+        trip2_total_time = current_time - trip2_start_time
+        
+        print(f"    Return Distance: {return_distance:.3f} m | Return Time: {return_time:.2f} s")
+        print(f"\n  ✓ TRIP 2 COMPLETE")
+        print(f"    Cells visited: {len(trip2_cells)}")
+        print(f"    Trip 2 Distance: {trip2_distance:.3f} m")
+        print(f"    Trip 2 Time: {trip2_total_time:.2f} s")
+        
+        trip_metrics.append({
+            'trip': 2,
+            'cells_visited': trip2_cells,
+            'distance': trip2_distance,
+            'time': trip2_total_time
+        })
+        
+        current_pos = self.start_position.copy()
+        
+        # =====================================================================
+        # MISSION 1 PART 1 COMPLETE - IRRIGATION IS PART 2 (OPTIONAL)
+        # =====================================================================
+        irrigation_time_spent = 0.0
+        irrigation_distance = 0.0
+        
+        if include_irrigation:
+            print("\n" + "=" * 50)
+            print("IRRIGATION PHASE (Part 2 - Optional)")
+            print("=" * 50)
+            print("Note: Irrigation gates are positioned adjacent to crop grid")
+            print("      This is Part 2 of Mission 1, after all seeds are planted")
+            
+            print(f"\n  → Traveling to irrigation gate...")
+            points, times, velocities = self._generate_segment_trajectory(
+                current_pos, self.irrigation_gate_pos, current_time
+            )
+            
+            self.trajectory.extend(points)
+            self.time_log.extend(times)
+            self.velocity_log.extend(velocities)
+            self.phase_log.extend([MissionPhase.TRAVELING_TO_GATE] * len(points))
+            
+            distance = np.linalg.norm(self.irrigation_gate_pos - current_pos)
+            travel_time = times[-1] - current_time
+            current_time = times[-1]
+            irrigation_distance += distance
+            total_distance += distance
+            
+            print(f"    Distance: {distance:.3f} m | Travel Time: {travel_time:.2f} s")
+            
+            # Activate irrigation
+            print(f"    Activating irrigation ({self.irrigation_time:.1f} s)...")
+            num_stop_points = int(self.irrigation_time / self.dt)
+            for _ in range(num_stop_points):
+                self.trajectory.append(self.irrigation_gate_pos.copy())
+                current_time += self.dt
+                self.time_log.append(current_time)
+                self.velocity_log.append(0.0)
+                self.phase_log.append(MissionPhase.IRRIGATING)
+            
+            current_pos = self.irrigation_gate_pos
+            irrigation_time_spent = travel_time + self.irrigation_time
+            
+            # Final return to Start Zone
+            print(f"\n  ← Final return to Start Zone...")
+            points, times, velocities = self._generate_segment_trajectory(
+                current_pos, self.start_position, current_time
+            )
+            
+            self.trajectory.extend(points)
+            self.time_log.extend(times)
+            self.velocity_log.extend(velocities)
+            self.phase_log.extend([MissionPhase.RETURNING] * len(points))
+            
+            return_distance = np.linalg.norm(self.start_position - current_pos)
+            return_time = times[-1] - current_time
+            current_time = times[-1]
+            irrigation_distance += return_distance
+            total_distance += return_distance
+            irrigation_time_spent += return_time
+            
+            print(f"    Return Distance: {return_distance:.3f} m | Return Time: {return_time:.2f} s")
+            print(f"\n  ✓ IRRIGATION COMPLETE")
+        
+        # =====================================================================
+        # FINAL SUMMARY
+        # =====================================================================
+        print("\n" + "="*70)
+        print("CELL-BASED TWO-TRIP STRATEGY SUMMARY")
+        print("="*70)
+        
+        within_time_limit = current_time <= self.time_limit
+        
+        print(f"\n  MISSION ROUTE:")
+        print(f"  {'─' * 55}")
+        print(f"  Trip 1: start → {' → '.join(trip1_cells)} → start")
+        print(f"  [RELOAD SEEDS]")
+        print(f"  Trip 2: start → {' → '.join(trip2_cells)} → start")
+        if include_irrigation:
+            print(f"  [IRRIGATION]: start → irrigation_gate → start")
+        
+        print(f"\n  TIMING BREAKDOWN:")
+        print(f"  {'─' * 55}")
+        print(f"  Trip 1 ({len(trip1_cells)} cells):       {trip_metrics[0]['time']:>8.2f} s")
+        print(f"  Seed Reload:              {seed_reload_time:>8.2f} s")
+        print(f"  Trip 2 ({len(trip2_cells)} cells):       {trip_metrics[1]['time']:>8.2f} s")
+        if include_irrigation:
+            print(f"  Irrigation Phase:         {irrigation_time_spent:>8.2f} s")
+        print(f"  {'─' * 55}")
+        print(f"  TOTAL TIME:               {current_time:>8.2f} s")
+        print(f"  Time Limit:               {self.time_limit:>8.2f} s")
+        print(f"  Time Remaining:           {self.time_limit - current_time:>8.2f} s")
+        
+        print(f"\n  DISTANCE BREAKDOWN:")
+        print(f"  {'─' * 55}")
+        print(f"  Trip 1:                   {trip_metrics[0]['distance']:>8.3f} m")
+        print(f"  Trip 2:                   {trip_metrics[1]['distance']:>8.3f} m")
+        if include_irrigation:
+            print(f"  Irrigation Phase:         {irrigation_distance:>8.3f} m")
+        print(f"  {'─' * 55}")
+        print(f"  TOTAL DISTANCE:           {total_distance:>8.3f} m")
+        
+        print(f"\n  MISSION STATUS:")
+        print(f"  {'─' * 55}")
+        if within_time_limit:
+            print(f"  ✓ FEASIBLE - Completes within 120-second limit!")
+            print(f"  ✓ Time buffer: {self.time_limit - current_time:.2f} s available")
+        else:
+            print(f"  ✗ EXCEEDS TIME LIMIT by {current_time - self.time_limit:.2f} s")
+        
+        print("="*70 + "\n")
+        
+        # Save trajectory to CSV
+        if save_trajectory:
+            cells_str = '_'.join(trip1_cells + trip2_cells)
+            filename = f"results/trajectory_6-trip_{cells_str}.csv"
+            
+            with open(filename, 'w', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow(['Time (s)', 'X (m)', 'Y (m)', 'Velocity (m/s)', 'Phase'])
+                
+                for i in range(len(self.trajectory)):
+                    writer.writerow([
+                        f"{self.time_log[i]:.3f}",
+                        f"{self.trajectory[i][0]:.4f}",
+                        f"{self.trajectory[i][1]:.4f}",
+                        f"{self.velocity_log[i]:.4f}",
+                        self.phase_log[i].value
+                    ])
+            
+            print(f"Trajectory data saved to: {filename}")
+        
+        return {
+            'total_time': current_time,
+            'total_distance': total_distance,
+            'time_remaining': self.time_limit - current_time,
+            'feasible': within_time_limit,
+            'seed_reload_time': seed_reload_time,
+            'trips': trip_metrics,
+            'include_irrigation': include_irrigation,
+            'irrigation_time': irrigation_time_spent,
+            'irrigation_distance': irrigation_distance
+        }
+
+
 def main():
     """Main simulation entry point."""
     print("\n")
@@ -1513,7 +1943,7 @@ def main():
     print("║" + " "*68 + "║")
     print("║" + "  ITU Robotics for Good Youth Challenge 2025-2026".center(68) + "║")
     print("║" + "  Mission 1: Cultivation and Irrigation Simulator".center(68) + "║")
-    print("║" + "  TWO-TRIP SEED PLANTING STRATEGY".center(68) + "║")
+    print("║" + "  CORRECTED FIELD LAYOUT (1.171m × 1.143m)".center(68) + "║")
     print("║" + " "*68 + "║")
     print("╚" + "="*68 + "╝")
     print()
@@ -1522,24 +1952,60 @@ def main():
     simulator = Mission1Simulator("robotics_competition.yaml")
     
     # =========================================================================
-    # 1. COMPARE SINGLE-TRIP vs TWO-TRIP STRATEGIES
+    # COORDINATE VERIFICATION TABLE
+    # =========================================================================
+    print("\n" + "="*70)
+    print("COORDINATE VERIFICATION (Corrected to Match Official Diagram)")
+    print("="*70)
+    print(f"\n{'Position':<25} {'Coordinates (m)':<20} {'Description':<30}")
+    print("-" * 75)
+    print(f"{'Field Dimensions':<25} {'1.171 × 1.143':<20} {'Width × Height':<30}")
+    print(f"{'Start Zone':<25} {'[0.851-1.171, 0-0.600]':<20} {'Bottom-right corner':<30}")
+    print(f"{'Robot Start':<25} {'[1.011, 0.300, π]':<20} {'Center of start zone, facing LEFT':<30}")
+    print(f"{'crop_cell_1_1':<25} {'[0.065, 0.810]':<20} {'Bottom-left cell':<30}")
+    print(f"{'crop_cell_1_2':<25} {'[0.235, 0.810]':<20} {'Bottom-right cell':<30}")
+    print(f"{'crop_cell_2_1':<25} {'[0.065, 0.943]':<20} {'Middle-left cell':<30}")
+    print(f"{'crop_cell_2_2':<25} {'[0.235, 0.943]':<20} {'Middle-right cell':<30}")
+    print(f"{'crop_cell_3_1':<25} {'[0.065, 1.076]':<20} {'Top-left cell':<30}")
+    print(f"{'crop_cell_3_2':<25} {'[0.235, 1.076]':<20} {'Top-right cell':<30}")
+    print("="*70)
+    
+    # =========================================================================
+    # PRIMARY SIMULATION: Cell-Based Two-Trip Strategy
+    # =========================================================================
+    # This simulates the official Mission 1 Part 1 (Planting Only)
+    # Route: Visit all 6 cells in 2 trips with seed reload between trips
+    
+    print("\n" + "="*70)
+    print("SIMULATING OFFICIAL MISSION 1 PART 1 (PLANTING ONLY)")
+    print("="*70)
+    print("Route: Start → 3 cells → Start [reload] → 3 cells → Start")
+    print("Note: Irrigation (Part 2) disabled by default for Part 1 simulation")
+    print("="*70)
+    
+    cell_results = simulator.simulate_cell_based_two_trip(
+        trip1_cells=['cell_1_1', 'cell_1_2', 'cell_2_1'],  # First 3 cells
+        trip2_cells=['cell_2_2', 'cell_3_1', 'cell_3_2'],  # Remaining 3 cells
+        seed_reload_time=2.5,            # 2.5 seconds reload time
+        include_irrigation=False,        # Part 1 = planting only (no irrigation)
+        save_trajectory=True
+    )
+    
+    # =========================================================================
+    # OPTIONAL: Compare with colored plot strategy (for reference)
     # =========================================================================
     comparison_results = simulator.compare_single_vs_two_trip(seed_reload_time=2.5)
     
     # =========================================================================
-    # 2. SIMULATE TWO-TRIP STRATEGY (Primary Mission Strategy)
+    # VISUALIZATION
     # =========================================================================
-    # Trip 1: Start Zone → Orange Plot → Gray Plot → Return to Start Zone
-    # Trip 2: Start Zone → Green Plot → Return to Start Zone
-    # Optional: Irrigation gate visit after both trips
+    print("\n" + "="*70)
+    print("VISUALIZATION")
+    print("="*70)
+    print("Generating visualization of cell-based two-trip robot movement...")
+    print("="*70 + "\n")
     
-    two_trip_results = simulator.simulate_two_trip_strategy(
-        trip1_plots=['orange', 'gray'],  # First two crop sections
-        trip2_plots=['green'],           # Remaining crop section
-        seed_reload_time=2.5,            # 2.5 seconds reload time at Start Zone
-        include_irrigation=True,         # Visit irrigation gate after Trip 2
-        save_trajectory=True
-    )
+    simulator.visualize_trajectory(save_plot=True, animate=True)
     
     # =========================================================================
     # 3. VISUALIZE TWO-TRIP TRAJECTORY
@@ -1557,53 +2023,35 @@ def main():
     simulator.visualize_trajectory(save_plot=True, animate=True)
     
     # =========================================================================
-    # 4. FINAL SUMMARY FOR TWO-TRIP STRATEGY
+    # FINAL SUMMARY
     # =========================================================================
     print("\n" + "="*70)
-    print("TWO-TRIP MISSION STRATEGY - FINAL SUMMARY")
+    print("MISSION 1 SIMULATION - FINAL SUMMARY")
     print("="*70)
-    print("\nSTRATEGY OVERVIEW:")
-    print("  Trip 1: Start Zone → Orange Plot → Gray Plot → Start Zone")
-    print("  [Reload]: Wait at Start Zone for seed reload (~2.5 seconds)")
-    print("  Trip 2: Start Zone → Green Plot → Start Zone")
-    print("  [Optional]: Start Zone → Irrigation Gate → Start Zone")
     
-    print("\nKEY FINDINGS:")
-    print(f"  • Total mission time: {two_trip_results['total_time']:.2f} seconds")
-    print(f"  • Time remaining: {two_trip_results['time_remaining']:.2f} seconds")
-    print(f"  • Total distance: {two_trip_results['total_distance']:.3f} meters")
-    print(f"  • Mission feasibility: {'✓ FEASIBLE within 120s limit' if two_trip_results['feasible'] else '✗ EXCEEDS time limit'}")
+    print("\nCORRECTIONS APPLIED:")
+    print("  ✓ Field width: 1.171m (was incorrectly 1.181m)")
+    print("  ✓ Start zone: [0.851-1.171, 0-0.600] at bottom-right")
+    print("  ✓ Robot start position: [1.011, 0.300] facing LEFT (π radians)")
+    print("  ✓ Crop plot: Single 2×3 grid at top-left (6 cells)")
+    print("  ✓ Cell coordinates: Updated to match official diagram")
+    print("  ✓ Mission route: Two-trip strategy with reload between trips")
     
-    print("\nTRIP BREAKDOWN:")
-    for trip in two_trip_results['trips']:
-        plots_str = ', '.join(trip['plots_visited'])
-        print(f"  • Trip {trip['trip']}: {plots_str}")
-        print(f"    Distance: {trip['distance']:.3f} m | Time: {trip['time']:.2f} s")
-    print(f"  • Seed Reload Time: {two_trip_results['seed_reload_time']:.1f} s")
-    if two_trip_results['include_irrigation']:
-        print(f"  • Irrigation Phase: {two_trip_results['irrigation_distance']:.3f} m | {two_trip_results['irrigation_time']:.2f} s")
+    print("\nKEY RESULTS:")
+    print(f"  • Total mission time: {cell_results['total_time']:.2f} seconds")
+    print(f"  • Time remaining: {cell_results['time_remaining']:.2f} seconds")
+    print(f"  • Total distance: {cell_results['total_distance']:.3f} meters")
+    print(f"  • Mission feasibility: {'✓ FEASIBLE' if cell_results['feasible'] else '✗ EXCEEDS LIMIT'}")
     
-    print("\nCOMPARISON TO SINGLE-TRIP:")
-    time_diff = comparison_results['time_difference']
-    if time_diff > 0:
-        print(f"  • Two-trip takes {time_diff:.2f} s longer than single-trip")
-    else:
-        print(f"  • Two-trip is {-time_diff:.2f} s faster than single-trip")
-    print(f"  • Both strategies are {'feasible' if two_trip_results['feasible'] and comparison_results['single_trip']['feasible'] else 'NOT both feasible'}")
-    
-    print("\nRECOMMENDATIONS:")
-    print("  1. Use two-trip strategy for realistic seed capacity constraints")
-    print("  2. Optimize path within each trip for minimal travel time")
-    print(f"  3. Target velocity: {simulator.max_velocity} m/s for smooth motion")
-    print("  4. Practice quick seed reload at Start Zone (target: 2-3 seconds)")
-    print("  5. Monitor time during mission - abort irrigation if behind schedule")
+    print("\nVALIDATION CHECKLIST:")
+    print(f"  [{'✓' if simulator.field_width == 1.171 else '✗'}] Field width is 1.171m")
+    print(f"  [{'✓' if simulator.start_position[0] == 1.011 else '✗'}] Robot starts at X=1.011")
+    print(f"  [{'✓' if len(simulator.crop_plots) == 6 else '✗'}] All 6 crop cells defined")
+    print(f"  [{'✓' if cell_results['feasible'] else '✗'}] Completes within 120 seconds")
     
     print("\nOUTPUT FILES:")
-    print("  • Trajectory CSV: results/trajectory_2trip_*.csv")
-    print("  • Animation GIF: results/mission1_animation_*.gif")
-    print("="*70 + "\n")
-    
-    print("✓ Two-trip strategy simulation complete! Review the saved files for detailed results.")
+    print("  • Trajectory CSV: results/trajectory_6-trip_*.csv")
+    print("  • Visualization: results/mission1_*.png or .gif")
     print("="*70 + "\n")
 
 
