@@ -164,7 +164,7 @@ obstacles:
     width: 0.150   # Gate width
     height: 0.030  # Gate thickness
   
-  - type: "rectangle"q
+  - type: "rectangle"
     name: "irrigation_gate_bottom"
     position: [0.095, 0.400]  # Lower portion of gate
     width: 0.150
